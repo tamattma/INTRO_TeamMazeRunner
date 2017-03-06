@@ -35,6 +35,8 @@
 #include "UTIL1.h"
 #include "MCUC1.h"
 #include "WAIT1.h"
+#include "Bit2.h"
+#include "BitIoLdd2.h"
 /* Including shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -54,10 +56,12 @@ int main(void)
 
   /* Write your code here */
   /* For example: for(;;) { } */
-
+  Bit1_NegVal();
+  WAIT1_Waitms(500);
   for(;;){
 
 	  Bit1_NegVal();
+	  Bit2_NegVal();
 	  WAIT1_Waitms(500);
 
   }
