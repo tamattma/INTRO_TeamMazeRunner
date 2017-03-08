@@ -109,6 +109,26 @@ int main(void)
   /*** End of Processor Expert internal initialization.                    ***/
 
   /* Write your code here */
+  for(;;) {
+	  LEDPin1_PutVal(0);
+	  for(int i = 0; i <= 100000; i++) {
+		  WAIT1_Wait100Cycles();
+	  }
+	  LEDPin1_PutVal(1);
+	  for(int i = 0; i <= 50000; i++) {
+		  WAIT1_Wait100Cycles();
+	  }
+	  LEDPin1_PutVal(0);
+	  for(int i = 0; i <= 100000; i++) {
+		  WAIT1_Wait100Cycles();
+	  }
+	  LEDPin1_PutVal(1);
+	  for(int i = 0; i <= 500000; i++) {
+		  WAIT1_Wait100Cycles();
+	  }
+  }
+
+
   APP_Start();
   /* For example: for(;;) { } */
 
