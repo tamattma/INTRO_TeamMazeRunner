@@ -133,8 +133,14 @@ void APP_Start(void) {
 #if PL_CONFIG_HAS_EVENTS
   EVNT_SetEvent(EVNT_STARTUP);
 #endif
+  LED1_On();
+  LED2_On();
   for(;;) {
-    WAIT1_Waitms(25); /* just wait for some arbitrary time .... */
+
+	  LED1_Neg();
+	  LED2_Neg();
+	  WAIT1_Waitms(100);
+
   }
 #endif
 }
