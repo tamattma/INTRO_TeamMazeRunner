@@ -3,7 +3,7 @@
   <Header>
     <Name>TEAM_Remote</Name>
     <SavedBy>Erich Styger Local</SavedBy>
-    <ModificationStamp>67</ModificationStamp>
+    <ModificationStamp>68</ModificationStamp>
     <Date>2016-09-20</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.12.2.RT7_b1550-0615</PEversion>
@@ -29,7 +29,7 @@
     <UseExistingModules>true</UseExistingModules>
     <RenamePeripheries>false</RenamePeripheries>
     <Autodependency>true</Autodependency>
-    <ProjectCompNumb>317</ProjectCompNumb>
+    <ProjectCompNumb>321</ProjectCompNumb>
     <DelUnusedPreviouslyGenFiles>true</DelUnusedPreviouslyGenFiles>
     <GeneratedCodeFrozen>false</GeneratedCodeFrozen>
     <AssignInitComponentNameToPrph>true</AssignInitComponentNameToPrph>
@@ -298,7 +298,7 @@
         <ItemSymbol>IRCLKGrp0</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Expanded>false</Expanded>
+        <Expanded>true</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>IRCLKENCLKMode0</ItemSymbol>
@@ -342,7 +342,7 @@
         <ItemSymbol>ERCLKGrp0</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Expanded>false</Expanded>
+        <Expanded>true</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>SystemOSCERCLKENCLKMode0</ItemSymbol>
@@ -511,7 +511,7 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>96</Value>
+        <Value>100</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>MCG_PRDIV_CLKMode0</ItemSymbol>
@@ -560,7 +560,7 @@
         <ItemSymbol>Intperiphgrp</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Expanded>true</Expanded>
+        <Expanded>false</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>SharedADC0</ItemSymbol>
@@ -875,7 +875,7 @@
         <ItemSymbol>FlashMemoryOrgGrp</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Expanded>true</Expanded>
+        <Expanded>false</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>SharedFLASHGrp</ItemSymbol>
@@ -1043,7 +1043,7 @@
       <ItemState>
         <ListItemCount>2</ListItemCount>
         <ItemSymbol>FlashOrgDscrBlockList</ItemSymbol>
-        <Expanded>true</Expanded>
+        <Expanded>false</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>FlashOrgDscrBlock0</ItemSymbol>
@@ -1326,7 +1326,7 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <Value>true</Value>
-        <Expanded>true</Expanded>
+        <Expanded>false</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>PeriphDeviceFTFL_FlashConfig</ItemSymbol>
@@ -3870,7 +3870,7 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>24</Value>
+        <Value>25</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>MCGOUTSelSpeedMode0</ItemSymbol>
@@ -3914,7 +3914,7 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <Index>0</Index>
-        <Expanded>true</Expanded>
+        <Expanded>false</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>MCGModeSelSpeedMode0</ItemSymbol>
@@ -3925,7 +3925,7 @@
       <ItemState>
         <ItemSymbol>MCGOutputSpeedMode0</ItemSymbol>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>96</Value>
+        <Value>100</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>IRCLKClkSpeedMode0</ItemSymbol>
@@ -3968,14 +3968,14 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>48</Value>
+        <Value>50</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>OUTDIV2PrescSpeedMode0</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>4</Value>
+        <Value>2</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>OUTDIV2Presc_SpeedMode0</ItemSymbol>
@@ -3989,7 +3989,7 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>24</Value>
+        <Value>50</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>FBClockCondGrp0</ItemSymbol>
@@ -4039,7 +4039,7 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>24</Value>
+        <Value>25</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>USB0_CLKINSpeedMode0</ItemSymbol>
@@ -4066,7 +4066,7 @@
       <ItemState>
         <ItemSymbol>PLLFLLClockSpeedMode0</ItemSymbol>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>96</Value>
+        <Value>100</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>I2S0_CLKINCondGrp0</ItemSymbol>
@@ -5434,9 +5434,9 @@
       <ItemId37>103</ItemId37>
       <Value37>true</Value37>
       <ItemId38>140</ItemId38>
-      <Value38>false</Value38>
+      <Value38>true</Value38>
       <ItemId39>142</ItemId39>
-      <Value39>false</Value39>
+      <Value39>true</Value39>
       <ItemId40>185</ItemId40>
       <Value40>true</Value40>
       <ItemId41>191</ItemId41>
@@ -5746,8 +5746,8 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>true</Value>
-        <Expanded>true</Expanded>
+        <Value>false</Value>
+        <Expanded>false</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>RuntimeCounterUseTickCounter</ItemSymbol>
@@ -8040,10 +8040,10 @@
         <ReadOnly>true</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Index>0</Index>
-        <Value>true</Value>
+        <Index>1</Index>
+        <Value>false</Value>
         <LastSelection>true</LastSelection>
-        <LastUserSel>always</LastUserSel>
+        <LastUserSel>never</LastUserSel>
         <UsrMethodName>vTaskGetRunTimeStats</UsrMethodName>
       </ItemState>
       <ItemState>
@@ -14127,7 +14127,7 @@
     <BeanType>TimerInt</BeanType>
     <Name>TI1</Name>
     <CompNumb>140</CompNumb>
-    <CompEnabled>false</CompEnabled>
+    <CompEnabled>true</CompEnabled>
     <GenCodeMode>ALWAYS_WRITE</GenCodeMode>
     <IconName>TMRCNTR</IconName>
     <UserFolderName />
@@ -14368,7 +14368,7 @@
         <ItemSymbol>RefComp</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Expanded>false</Expanded>
+        <Expanded>true</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>InheritedComponent</ItemSymbol>
@@ -14449,7 +14449,7 @@
               <ItemSymbol>IntPeriodTmg</ItemSymbol>
               <ReadOnly>false</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
-              <Value>10 ms</Value>
+              <Value>init:10 ms;prec:5%;RTS:none;clksrc_presc[SpeedMode0]Auto select;clksrc_presc[SpeedMode1]Auto select;clksrc_presc[SpeedMode2]Auto select;clksrc_presc[SpeedMode3]Auto select;clksrc_presc[SpeedMode4]Auto select;clksrc_presc[SpeedMode5]Auto select;clksrc_presc[SpeedMode6]Auto select;clksrc_presc[SpeedMode7]Auto select</Value>
               <RuntimeSetting>0</RuntimeSetting>
               <ReqDevPrescHigh>-1</ReqDevPrescHigh>
               <ReqDevPrescLow>-1</ReqDevPrescLow>
@@ -14483,6 +14483,8 @@
               <List lines_count="0" />
               <UnitText>ms</UnitText>
               <MinCounterTicks>0</MinCounterTicks>
+              <ControlledTimingCfgFromPropertySymbol>Tmg_Period</ControlledTimingCfgFromPropertySymbol>
+              <ControlledTimingCfgFromComponentRef>LinkedTimerUnit</ControlledTimingCfgFromComponentRef>
             </ItemState>
             <ItemState>
               <ItemSymbol>_InitGrp</ItemSymbol>
@@ -15052,7 +15054,7 @@
     <BeanType>TimerUnit_LDD</BeanType>
     <Name>TU1</Name>
     <CompNumb>142</CompNumb>
-    <CompEnabled>false</CompEnabled>
+    <CompEnabled>true</CompEnabled>
     <GenCodeMode>ALWAYS_WRITE</GenCodeMode>
     <IconName>CLOCKS_LDD</IconName>
     <UserFolderName />
@@ -15251,7 +15253,7 @@
         <ItemSymbol>Tmg_Period</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>10 ms</Value>
+        <Value>init:10 ms;prec:5%;RTS:none;clksrc_presc[SpeedMode0]Auto select;clksrc_presc[SpeedMode1]Auto select;clksrc_presc[SpeedMode2]Auto select;clksrc_presc[SpeedMode3]Auto select;clksrc_presc[SpeedMode4]Auto select;clksrc_presc[SpeedMode5]Auto select;clksrc_presc[SpeedMode6]Auto select;clksrc_presc[SpeedMode7]Auto select</Value>
         <RuntimeSetting>0</RuntimeSetting>
         <ReqDevPrescHigh>-1</ReqDevPrescHigh>
         <ReqDevPrescLow>-1</ReqDevPrescLow>
@@ -15331,7 +15333,7 @@
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <Value>false</Value>
-        <Expanded>false</Expanded>
+        <Expanded>true</Expanded>
       </ItemState>
       <ItemState>
         <ItemSymbol>CounterInt</ItemSymbol>
@@ -15346,7 +15348,7 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>ModuloInt</ItemSymbol>
-        <Value />
+        <Value>INT_FTM0</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>ModuloInitPriority</ItemSymbol>
@@ -15833,10 +15835,10 @@
         <ReadOnly>true</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>false</Value>
-        <Expanded>false</Expanded>
+        <Value>true</Value>
+        <Expanded>true</Expanded>
         <LastSelection>true</LastSelection>
-        <LastUserSel>never</LastUserSel>
+        <LastUserSel>yes</LastUserSel>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnCounterRestartName</ItemSymbol>
@@ -60448,7 +60450,7 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>DividerInputFreq</ItemSymbol>
-        <Value>96 MHz</Value>
+        <Value>100 MHz</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>DividerClockFraction</ItemSymbol>
@@ -60478,7 +60480,7 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>ModuleClockFreq</ItemSymbol>
-        <Value>48 MHz</Value>
+        <Value>50 MHz</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>PullUpDownGrp</ItemSymbol>
