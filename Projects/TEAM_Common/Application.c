@@ -49,6 +49,9 @@ void APP_EventHandler(EVNT_Handle event) {
   switch(event) {
   case EVNT_STARTUP:
     break;
+  case EVNT_LED_HEARTBEAT:
+	  //do heartbeat stuff
+	  break;
   default:
     break;
    } /* switch */
@@ -133,15 +136,8 @@ void APP_Start(void) {
 #if PL_CONFIG_HAS_EVENTS
   EVNT_SetEvent(EVNT_STARTUP);
 #endif
-  LED1_On();
-  LED2_On();
-  for(;;) {
+//enter code here!
 
-	  LED1_Neg();
-	  LED2_Neg();
-	  WAIT1_Waitms(100);
-
-  }
 #endif
 }
 

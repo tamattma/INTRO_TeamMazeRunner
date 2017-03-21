@@ -221,6 +221,24 @@ void QuadInt_OnInterrupt(void)
 #endif
 }
 
+/*
+** ===================================================================
+**     Event       :  Cpu_OnHardFault (module Events)
+**
+**     Component   :  Cpu [MK22FN1M0LK12]
+*/
+/*!
+**     @brief
+**         This event is called when the Hard Fault exception had
+**         occurred. This event is automatically enabled when the [Hard
+**         Fault] property is set to 'Enabled'.
+*/
+/* ===================================================================*/
+void Cpu_OnHardFault(void)
+{
+  /* Write your code here ... */
+}
+
 /* END Events */
 
 #ifdef __cplusplus
