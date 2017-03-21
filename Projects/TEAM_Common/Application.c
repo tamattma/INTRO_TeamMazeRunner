@@ -142,12 +142,3 @@ void APP_Start(void) {
 #endif
 }
 
-#if PL_CONFIG_HAS_EVENTS
-  EVNT_SetEvent(EVNT_STARTUP);
-#endif
-//enter code here!
-
-#endif
-}
-
-
