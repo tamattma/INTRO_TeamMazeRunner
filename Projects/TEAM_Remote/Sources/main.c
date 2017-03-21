@@ -31,10 +31,12 @@
 #include "Cpu.h"
 #include "Events.h"
 #include "FRTOS1.h"
-#include "RTOSCNTRLDD1.h"
 #include "MCUC1.h"
 #include "LEDPin1.h"
 #include "BitIoLdd17.h"
+#include "TI1.h"
+#include "TimerIntLdd1.h"
+#include "TU1.h"
 #include "WAIT1.h"
 #include "UTIL1.h"
 #include "KIN1.h"
@@ -98,6 +100,7 @@
 /* User includes (#include below this line is not maintained by Processor Expert) */
 #include "Application.h"
 
+
 /*lint -save  -e970 Disable MISRA rule (6.3) checking. */
 int main(void)
 /*lint -restore Enable MISRA rule (6.3) checking. */
@@ -109,24 +112,7 @@ int main(void)
   /*** End of Processor Expert internal initialization.                    ***/
 
   /* Write your code here */
-  for(;;) {
-	  LEDPin1_PutVal(0);
-	  for(int i = 0; i <= 100000; i++) {
-		  WAIT1_Wait100Cycles();
-	  }
-	  LEDPin1_PutVal(1);
-	  for(int i = 0; i <= 50000; i++) {
-		  WAIT1_Wait100Cycles();
-	  }
-	  LEDPin1_PutVal(0);
-	  for(int i = 0; i <= 100000; i++) {
-		  WAIT1_Wait100Cycles();
-	  }
-	  LEDPin1_PutVal(1);
-	  for(int i = 0; i <= 500000; i++) {
-		  WAIT1_Wait100Cycles();
-	  }
-  }
+
 
 
   APP_Start();
