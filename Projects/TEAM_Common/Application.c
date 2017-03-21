@@ -134,6 +134,13 @@ void APP_Start(void) {
   /* does usually not return! */
 #else
   __asm volatile("cpsie i"); /* enable interrupts */
+  for(;;) {
+	  WAIT1_Waitms(100); /* just wait for some arbitrary time */
+	  LED1_Neg();
+	  EVNT_HandleEvent(APP_EventHandler, TRUE);
+  }
+#endif
+}
 
 #if PL_CONFIG_HAS_EVENTS
   EVNT_SetEvent(EVNT_STARTUP);
