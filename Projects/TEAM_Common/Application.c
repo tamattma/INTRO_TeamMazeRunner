@@ -51,6 +51,10 @@ void APP_EventHandler(EVNT_Handle event) {
     break;
   case EVNT_LED_HEARTBEAT:
 	  //do heartbeat stuff
+	  LED1_Neg();
+	  WAIT1_Waitms(100);
+	  LED1_Neg();
+	  WAIT1_Waitms(500);
 	  break;
   default:
     break;
@@ -136,7 +140,7 @@ void APP_Start(void) {
   __asm volatile("cpsie i"); /* enable interrupts */
   for(;;) {
 	  WAIT1_Waitms(100); /* just wait for some arbitrary time */
-	  LED1_Neg();
+
 	  EVNT_HandleEvent(APP_EventHandler, TRUE);
   }
 #endif
