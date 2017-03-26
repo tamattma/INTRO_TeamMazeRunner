@@ -51,10 +51,22 @@ void APP_EventHandler(EVNT_Handle event) {
     break;
   case EVNT_LED_HEARTBEAT:
 	  //do heartbeat stuff
-	  LED1_Neg();
+	  for(int i = 1; i <= PL_LOCAL_CONFIG_NOF_LEDS; i++) {
+		  LED_On(i);
+	  }
 	  WAIT1_Waitms(100);
-	  LED1_Neg();
-	  WAIT1_Waitms(500);
+	  for(int i = 1; i <= PL_LOCAL_CONFIG_NOF_LEDS; i++) {
+		  LED_Off(i);
+	  }
+	  WAIT1_Waitms(100);
+	  for(int i = 1; i <= PL_LOCAL_CONFIG_NOF_LEDS; i++) {
+		  LED_On(i);
+	  }
+	  WAIT1_Waitms(100);
+	  for(int i = 1; i <= PL_LOCAL_CONFIG_NOF_LEDS; i++) {
+		  LED_Off(i);
+	  }
+	  WAIT1_Waitms(600);
 	  break;
   default:
     break;
