@@ -106,10 +106,10 @@ void APP_EventHandler(EVNT_Handle event) {
   case EVNT_SW5_PRESSED: // Joystick nach oben
 	  LED1_On();
 	  break;
-  case EVNT_SW6_PRESSED: // Button
+  case EVNT_SW6_PRESSED: // Button left
 	  LED1_On();
 	  break;
-  case EVNT_SW7_PRESSED: // Button
+  case EVNT_SW7_PRESSED: // Button right
 	  LED1_Off();
 	  break;
 
@@ -198,6 +198,7 @@ void APP_Start(void) {
   for(;;) {
 	  WAIT1_Waitms(100); /* just wait for some arbitrary time */
 
+	  KEY_Scan();
 	  EVNT_HandleEvent(APP_EventHandler, TRUE);
   }
 #endif
