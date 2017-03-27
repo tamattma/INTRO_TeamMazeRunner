@@ -63,6 +63,8 @@ void APP_EventHandler(EVNT_Handle event) {
 
   case EVNT_SW1_PRESSED: // Joystick nach rechts
 	  LED1_On();
+	  CLS1_SendStr("Hello World\r\n", CLS1_GetStdio()->stdOut);
+	  LED1_Off();
 	  break;
 
   case EVNT_SW2_PRESSED: // Joystick nach links
