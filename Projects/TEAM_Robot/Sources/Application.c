@@ -94,14 +94,9 @@ void APP_EventHandler(EVNT_Handle event) {
   case EVNT_SW1_PRESSED:
 	  LED1_On();
 	  break;
-  case EVNT_SW1_RELEASED:
-	  LED1_Off();
-	  break;
-  case EVNT_SW1_LPRESSED:
-
-	  break;
 
   default:
+	  LED1_Off();
     break;
    } /* switch */
 }
@@ -185,7 +180,8 @@ void APP_Start(void) {
   __asm volatile("cpsie i"); /* enable interrupts */
   for(;;) {
 	  WAIT1_Waitms(100); /* just wait for some arbitrary time */
-
+	  //Poll for button
+	  KEY_Scan();
 	  EVNT_HandleEvent(APP_EventHandler, TRUE);
   }
 #endif

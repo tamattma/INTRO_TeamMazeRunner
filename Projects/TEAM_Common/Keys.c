@@ -31,6 +31,10 @@ void KEY_Scan(void) {
   if (KEY1_Get()) { /* key pressed */
     EVNT_SetEvent(EVNT_SW1_PRESSED);
   }
+    else {
+    	EVNT_ClearEvent(EVNT_SW1_PRESSED);
+    }
+
 #endif
   /*! \todo check handling all keys */
 #if PL_CONFIG_NOF_KEYS>=2 && !PL_CONFIG_KEY_2_ISR
