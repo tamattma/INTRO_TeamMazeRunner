@@ -90,7 +90,6 @@ void APP_EventHandler(EVNT_Handle event) {
 	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 3)
 		  LED3_Off();
 	#endif
-	  WAIT1_Waitms(600);
 	  break;
   default:
     break;
