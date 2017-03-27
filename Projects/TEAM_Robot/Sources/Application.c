@@ -92,11 +92,10 @@ void APP_EventHandler(EVNT_Handle event) {
 	#endif
 	  break;
   case EVNT_SW1_PRESSED:
-	  LED1_On();
+	  LED1_Neg();
 	  break;
 
   default:
-	  LED1_Off();
     break;
    } /* switch */
 }
