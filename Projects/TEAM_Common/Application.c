@@ -57,12 +57,18 @@ void APP_EventHandler(EVNT_Handle event) {
 	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 2)
 		  LED2_On();
 	#endif
+	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 3)
+		  LED3_On();
+	#endif
 	  WAIT1_Waitms(100);
 	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 1)
 		  LED1_Off();
 	#endif
 	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 2)
 		  LED2_Off();
+	#endif
+	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 3)
+		  LED3_Off();
 	#endif
 	  WAIT1_Waitms(100);
 	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 1)
@@ -71,12 +77,18 @@ void APP_EventHandler(EVNT_Handle event) {
 	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 2)
 		  LED2_On();
 	#endif
+	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 3)
+		  LED3_On();
+	#endif
 	  WAIT1_Waitms(100);
 	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 1)
 		  LED1_Off();
 	#endif
 	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 2)
 		  LED2_Off();
+	#endif
+	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 3)
+		  LED3_Off();
 	#endif
 	  WAIT1_Waitms(600);
 	  break;
