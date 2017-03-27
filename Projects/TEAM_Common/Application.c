@@ -91,6 +91,16 @@ void APP_EventHandler(EVNT_Handle event) {
 		  LED3_Off();
 	#endif
 	  break;
+  case EVNT_SW1_PRESSED:
+	  LED1_On();
+	  break;
+  case EVNT_SW1_RELEASED:
+	  LED1_Off();
+	  break;
+  case EVNT_SW1_LPRESSED:
+
+	  break;
+
   default:
     break;
    } /* switch */
