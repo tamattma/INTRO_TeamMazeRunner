@@ -91,14 +91,26 @@ void APP_EventHandler(EVNT_Handle event) {
 		  LED3_Off();
 	#endif
 	  break;
-  case EVNT_SW1_PRESSED:
+  case EVNT_SW1_PRESSED: // Joystick nach rechts
 	  LED1_On();
 	  break;
-  case EVNT_SW1_RELEASED:
+  case EVNT_SW2_PRESSED: // Joystick nach links
 	  LED1_Off();
 	  break;
-  case EVNT_SW1_LPRESSED:
-
+  case EVNT_SW3_PRESSED: // Joystick nach unten
+	  LED1_On();
+	  break;
+  case EVNT_SW4_PRESSED: // Joystick gedrückt
+	  LED1_Off();
+	  break;
+  case EVNT_SW5_PRESSED: // Joystick nach oben
+	  LED1_On();
+	  break;
+  case EVNT_SW6_PRESSED: // Button
+	  LED1_On();
+	  break;
+  case EVNT_SW7_PRESSED: // Button
+	  LED1_Off();
 	  break;
 
   default:
