@@ -49,66 +49,42 @@ void APP_EventHandler(EVNT_Handle event) {
   switch(event) {
   case EVNT_STARTUP:
     break;
+
   case EVNT_LED_HEARTBEAT:
 	  //do heartbeat stuff
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 1)
-		  LED1_On();
-	#endif
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 2)
-		  LED2_On();
-	#endif
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 3)
-		  LED3_On();
-	#endif
+	  LED1_On();
 	  WAIT1_Waitms(100);
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 1)
-		  LED1_Off();
-	#endif
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 2)
-		  LED2_Off();
-	#endif
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 3)
-		  LED3_Off();
-	#endif
+	  LED1_Off();
 	  WAIT1_Waitms(100);
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 1)
-		  LED1_On();
-	#endif
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 2)
-		  LED2_On();
-	#endif
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 3)
-		  LED3_On();
-	#endif
+	  LED1_On();
 	  WAIT1_Waitms(100);
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 1)
-		  LED1_Off();
-	#endif
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 2)
-		  LED2_Off();
-	#endif
-	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 3)
-		  LED3_Off();
-	#endif
+	  LED1_Off();
 	  break;
+
   case EVNT_SW1_PRESSED: // Joystick nach rechts
 	  LED1_On();
 	  break;
+
   case EVNT_SW2_PRESSED: // Joystick nach links
 	  LED1_Off();
 	  break;
+
   case EVNT_SW3_PRESSED: // Joystick nach unten
 	  LED1_On();
 	  break;
+
   case EVNT_SW4_PRESSED: // Joystick gedrückt
 	  LED1_Off();
 	  break;
+
   case EVNT_SW5_PRESSED: // Joystick nach oben
 	  LED1_On();
 	  break;
+
   case EVNT_SW6_PRESSED: // Button left
 	  LED1_On();
 	  break;
+
   case EVNT_SW7_PRESSED: // Button right
 	  LED1_Off();
 	  break;
