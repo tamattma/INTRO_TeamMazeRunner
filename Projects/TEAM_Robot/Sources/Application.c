@@ -48,6 +48,7 @@ void APP_EventHandler(EVNT_Handle event) {
   /*! \todo handle events */
   switch(event) {
   case EVNT_STARTUP:
+	  BUZ_PlayTune(BUZ_TUNE_WELCOME);
     break;
   case EVNT_LED_HEARTBEAT:
 	  //do heartbeat stuff
@@ -92,8 +93,10 @@ void APP_EventHandler(EVNT_Handle event) {
 	#endif
 	  break;
   case EVNT_SW1_PRESSED:
+	  BUZ_PlayTune(BUZ_TUNE_BUTTON);
 	  LED1_Neg();
 	  break;
+
 
   default:
     break;
@@ -177,6 +180,7 @@ void APP_Start(void) {
   /* does usually not return! */
 #else
   __asm volatile("cpsie i"); /* enable interrupts */
+
   for(;;) {
 	  WAIT1_Waitms(100); /* just wait for some arbitrary time */
 	  //Poll for button
