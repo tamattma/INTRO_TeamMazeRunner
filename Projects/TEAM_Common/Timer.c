@@ -30,7 +30,8 @@ void TMR_OnInterrupt(void) {
 #if PL_CONFIG_HAS_EVENTS
 	if ((cntr%(BLINK_PERIOD_MS/TMR_TICK_MS))==0) { /* every two seconds */
 		//EVNT_SetEvent(EVNT_LED_HEARTBEAT);
-		EVNT_SetEvent(EVNT_HELLO_WORLD);
+		//EVNT_SetEvent(EVNT_HELLO_WORLD);
+		TRG_AddTick();
 	}
 #endif
 }
