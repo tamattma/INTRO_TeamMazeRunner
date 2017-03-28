@@ -65,55 +65,55 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_HELLO_WORLD:
-	  CLS1_SendNum32s((uint8_t*)cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  CLS1_SendStr((uint8_t*)"  loading...\r\n", CLS1_GetStdio()->stdOut);
 	  break;
 
   case EVNT_SW1_PRESSED: // Joystick nach rechts
 	  LED1_On();
-	  CLS1_SendNum32s((uint8_t*)cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  CLS1_SendStr((uint8_t*)"  I'm alive!!!\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
 	  break;
 
   case EVNT_SW2_PRESSED: // Joystick nach links
 	  LED1_On();
-	  CLS1_SendNum32s((uint8_t*)cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  CLS1_SendStr((uint8_t*)"  Feed me!!!\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
 	  break;
 
   case EVNT_SW3_PRESSED: // Joystick nach unten
 	  LED1_On();
-	  CLS1_SendNum32s((uint8_t*)cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  CLS1_SendStr((uint8_t*)"  I'm hungry!\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
 	  break;
 
   case EVNT_SW4_PRESSED: // Joystick gedrückt
 	  LED1_On();
-	  CLS1_SendNum32s((uint8_t*)cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  CLS1_SendStr((uint8_t*)"  Entertain me!\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
 	  break;
 
   case EVNT_SW5_PRESSED: // Joystick nach oben
 	  LED1_On();
-	  CLS1_SendNum32s((uint8_t*)cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  CLS1_SendStr((uint8_t*)"  Send me some data!\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
 	  break;
 
   case EVNT_SW6_PRESSED: // Button left
 	  LED1_On();
-	  CLS1_SendNum32s((uint8_t*)cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  CLS1_SendStr((uint8_t*)"  I'm so lonely...\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
 	  break;
 
   case EVNT_SW7_PRESSED: // Button right
 	  LED1_On();
-	  CLS1_SendNum32s((uint8_t*)cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  CLS1_SendStr((uint8_t*)"  Never ever unplug me again!\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
 	  break;
