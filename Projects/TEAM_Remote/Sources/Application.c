@@ -72,51 +72,115 @@ void APP_EventHandler(EVNT_Handle event) {
   case EVNT_SW1_PRESSED: // Joystick nach rechts
 	  LED1_On();
 	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
-	  CLS1_SendStr((uint8_t*)"  I'm alive!!!\r\n", CLS1_GetStdio()->stdOut);
+	  //CLS1_SendStr((uint8_t*)"  I'm alive!!!\r\n", CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW1_PRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
+	  break;
+  case EVNT_SW1_RELEASED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW1_RELEASED\r\n", CLS1_GetStdio()->stdOut);
+	  break;
+  case EVNT_SW1_LPRESSED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW1_LPRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  break;
 
   case EVNT_SW2_PRESSED: // Joystick nach links
 	  LED1_On();
 	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
-	  CLS1_SendStr((uint8_t*)"  Feed me!!!\r\n", CLS1_GetStdio()->stdOut);
+	  //CLS1_SendStr((uint8_t*)"  Feed me!!!\r\n", CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW2_PRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
 	  break;
+  	case EVNT_SW2_RELEASED:
+  	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+  	  CLS1_SendStr((uint8_t*)"  EVNT_SW2_RELEASED\r\n", CLS1_GetStdio()->stdOut);
+  	  break;
+    case EVNT_SW2_LPRESSED:
+      CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+  	  CLS1_SendStr((uint8_t*)"  EVNT_SW2_LPRESSED\r\n", CLS1_GetStdio()->stdOut);
+  	  break;
 
   case EVNT_SW3_PRESSED: // Joystick nach unten
 	  LED1_On();
 	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
-	  CLS1_SendStr((uint8_t*)"  I'm hungry!\r\n", CLS1_GetStdio()->stdOut);
+	  //CLS1_SendStr((uint8_t*)"  I'm hungry!\r\n", CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW3_PRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
+	  break;
+  case EVNT_SW3_RELEASED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW3_RELEASED\r\n", CLS1_GetStdio()->stdOut);
+	  break;
+  case EVNT_SW3_LPRESSED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW3_LPRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  break;
 
   case EVNT_SW4_PRESSED: // Joystick gedrückt
 	  LED1_On();
 	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
-	  CLS1_SendStr((uint8_t*)"  Entertain me!\r\n", CLS1_GetStdio()->stdOut);
+	  //CLS1_SendStr((uint8_t*)"  Entertain me!\r\n", CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW4_PRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
+	  break;
+  case EVNT_SW4_RELEASED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW4_RELEASED\r\n", CLS1_GetStdio()->stdOut);
+	  break;
+  case EVNT_SW4_LPRESSED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW4_LPRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  break;
 
   case EVNT_SW5_PRESSED: // Joystick nach oben
 	  LED1_On();
 	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
-	  CLS1_SendStr((uint8_t*)"  Send me some data!\r\n", CLS1_GetStdio()->stdOut);
+	  //CLS1_SendStr((uint8_t*)"  Send me some data!\r\n", CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW5_PRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
+	  break;
+  case EVNT_SW5_RELEASED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW5_RELEASED\r\n", CLS1_GetStdio()->stdOut);
+	  break;
+  case EVNT_SW5_LPRESSED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW5_LPRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  break;
 
   case EVNT_SW6_PRESSED: // Button left
 	  LED1_On();
 	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
-	  CLS1_SendStr((uint8_t*)"  I'm so lonely...\r\n", CLS1_GetStdio()->stdOut);
+	  //CLS1_SendStr((uint8_t*)"  I'm so lonely...\r\n", CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW6_PRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
+	  break;
+  case EVNT_SW6_RELEASED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW6_RELEASED\r\n", CLS1_GetStdio()->stdOut);
+	  break;
+  case EVNT_SW6_LPRESSED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW6_LPRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  break;
 
   case EVNT_SW7_PRESSED: // Button right
 	  LED1_On();
 	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
-	  CLS1_SendStr((uint8_t*)"  Never ever unplug me again!\r\n", CLS1_GetStdio()->stdOut);
+	  //CLS1_SendStr((uint8_t*)"  Never ever unplug me again!\r\n", CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW7_PRESSED\r\n", CLS1_GetStdio()->stdOut);
 	  LED1_Off();
 	  break;
+	case EVNT_SW7_RELEASED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW7_RELEASED\r\n", CLS1_GetStdio()->stdOut);
+	  break;
+  case EVNT_SW7_LPRESSED:
+	  CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
+	  CLS1_SendStr((uint8_t*)"  EVNT_SW7_LPRESSED\r\n", CLS1_GetStdio()->stdOut);
+	  break;
+
 
   default:
     break;
