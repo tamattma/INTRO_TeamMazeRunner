@@ -182,6 +182,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
 
+
   default:
     break;
    } /* switch */
