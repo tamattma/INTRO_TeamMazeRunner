@@ -11,6 +11,13 @@
 
 void RTOS_Init(void) {
   /*! \todo Create tasks here */
+#if PL_LOCAL_CONFIG_BOARD_IS_ROBO
+
+#endif
+
+#if PL_LOCAL_CONFIG_BOARD_IS_REMOTE
+
+#endif
 }
 
 void RTOS_Deinit(void) {
