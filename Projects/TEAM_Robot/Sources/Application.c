@@ -94,6 +94,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
   case EVNT_SW1_PRESSED:
 	  BUZ_PlayTune(BUZ_TUNE_BUTTON);
+	  CLS1_SendStr("Key pressed \n", CLS1_GetStdio()->stdOut);
 	  LED1_Neg();
 	  break;
 
