@@ -30,7 +30,7 @@ static void vMasterTask(void *pvParameters) {
   /*! \todo send semaphore from master task to slave task */
   for(;;) {
     /*! \todo Implement functionality */
-	  if(xSemaphoreTake(sem,50/portTICK_PERIOD_MS)){
+	  if(xSemaphoreTake(sem,50/portTICK_PERIOD_MS) == pdPass){
 		  LED1_Neg();
 	  }
 	  vTaskDelay(100/portTICK_PERIOD_MS);
