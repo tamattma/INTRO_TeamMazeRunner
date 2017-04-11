@@ -18,14 +18,6 @@ static void BlinkyTask(void *pvParameters){
 	}
 }
 
-static void BlinkyTask2(void *pvParameters){
-	TickType_t xLastWakeTime = xTaskGetTickCount();
-	for(;;){
-		LED2_Neg();
-		vTaskDelayUntil(&xLastWakeTime, 300/portTICK_PERIOD_MS);
-	}
-}
-
 static void BlinkTask(void *pvParameters) {
 	TickType_t xLastWakeTime = xTaskGetTickCount ();
 	for (;;) {
@@ -46,15 +38,6 @@ void RTOS_Init(void) {
 									tskIDLE_PRIORITY,
 									&taskBlinkHndl
 									);
-	xTaskHandle taskBlinkHndl2 ;
-		BaseType_t res2 = xTaskCreate( 	BlinkyTask2,
-										"Blinky2",
-										configMINIMAL_STACK_SIZE+50,
-										(void*) NULL,
-										tskIDLE_PRIORITY,
-										&taskBlinkHndl2
-										);
-#endif
 
 #if PL_LOCAL_CONFIG_BOARD_IS_REMOTE
 BaseType_t res;
