@@ -35,7 +35,7 @@ void SQUEUE_SendString(const unsigned char *str) {
   size_t bufSize;
 
   bufSize = UTIL1_strlen(str)+1;
-  if(ptr = pvPortMalloc(bufSize) == NULL){
+  if((ptr = pvPortMalloc(bufSize)) == NULL){
 	  for(;;){} /* Malloc failed*/
   }
   UTIL1_strcpy(ptr, bufSize, str);

@@ -362,6 +362,11 @@ static void ShellTask(void *pvParameters) {
     for(i=0;i<sizeof(ios)/sizeof(ios[0]);i++) {
       (void)CLS1_ReadAndParseWithCommandTable(ios[i].buf, ios[i].bufSize, ios[i].stdio, CmdParserTable);
     }
+    unsigned char *msg;
+    if((msg = SQUEUE_ReceiveMessage()) != NULL){
+    	CLS1_SendStr(msg,SHELL_stdio.stdOut);
+    	vPortFree(msg);
+    }
     vTaskDelay(pdMS_TO_TICKS(10));
   } /* for */
 }
