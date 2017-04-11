@@ -30,8 +30,12 @@ static void vMasterTask(void *pvParameters) {
   /*! \todo send semaphore from master task to slave task */
   for(;;) {
     /*! \todo Implement functionality */
-	  if(xSemaphoreTake(sem,50/portTICK_PERIOD_MS) == pdPass){
+	  if(xSemaphoreGive(sem) == pdPass){
+#if PL_LOCAL_CONFIG_BOARD_IS_REMOTE
 		  LED1_Neg();
+#elif
+		  LED2_Neg();
+#endif
 	  }
 	  vTaskDelay(100/portTICK_PERIOD_MS);
   }
