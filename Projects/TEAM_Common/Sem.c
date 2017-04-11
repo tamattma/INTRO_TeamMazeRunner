@@ -21,14 +21,15 @@
 #include "LED.h"
 #include "Buzzer.h"
 
+static xSemaphoreHandle sem;
+
 static void vSlaveTask(void *pvParameters) {
    for(;;) {
-	   if(xSemaphoreTake(sem,10/portTICK_PERIOD_MS) == pdPass){
+	   if(xSemaphoreTake(sem,10/portTICK_PERIOD_MS) == pdPASS){
 #ifdef PL_LOCAL_CONFIG_BOARD_IS_ROBO
-		   LED2_Neg();
 		   BUZ_PlayTune(BUZ_TUNE_WELCOME);
 #elif PL_LOCAL_CONFIG_BOARD_IS_REMOTE
-
+		   LED1_Neg();
 #endif
 	   }
 	   vTaskDelay(50/portTICK_PERIOD_MS);
@@ -39,10 +40,10 @@ static void vMasterTask(void *pvParameters) {
   /*! \todo send semaphore from master task to slave task */
   for(;;) {
     /*! \todo Implement functionality */
-	  if(xSemaphoreGive(sem) == pdPass){
+	  if(xSemaphoreGive(sem) == pdPASS){
 #if PL_LOCAL_CONFIG_BOARD_IS_REMOTE
 		  LED1_Neg();
-#elif
+#elif PL_LOCAL_CONFIG_BOARD_IS_ROBOT
 		  LED2_Neg();
 #endif
 	  }
