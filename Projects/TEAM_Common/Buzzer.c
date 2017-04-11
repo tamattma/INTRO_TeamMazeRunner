@@ -143,7 +143,7 @@ uint8_t BUZ_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_Std
     }
   } else if (UTIL1_strcmp((char*)cmd, (char*)"buzzer play tune")==0) {
     *handled = TRUE;
-    return BUZ_PlayTune(BUZ_TUNE_WELCOME);
+    return BUZ_PlayTune(BUZ_TUNE_BUTTON_LONG);
   }
   return ERR_OK;
 }
