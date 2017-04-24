@@ -56,11 +56,11 @@ void SEM_Deinit(void) {
 
 /*! \brief Initializes module */
 void SEM_Init(void) {
-  if (xTaskCreate(vMasterTask, "Master", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, NULL) != pdPASS) {
-    for(;;){} /* error */
-  }
-  if (xTaskCreate(vSlaveTask, "Slave", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, NULL) != pdPASS) {
-      for(;;){} /* error */
-    }
+/**  if (xTaskCreate(vMasterTask, "Master", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, NULL) != pdPASS) {
+*    for(;;){} /* error */
+/**  }
+*  if (xTaskCreate(vSlaveTask, "Slave", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+1, NULL) != pdPASS) {
+*      for(;;){} /* error */
+/**    }*/
 }
 #endif /* PL_CONFIG_HAS_SEMAPHORE */
