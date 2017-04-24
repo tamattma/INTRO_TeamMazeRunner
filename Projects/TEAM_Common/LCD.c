@@ -113,11 +113,11 @@ static void LCD_Task(void *param) {
   (void)param; /* not used */
 #if 1
   ShowTextOnLCD("Press a key!");
-  DrawText();
+  //DrawText();
   /* \todo extend */
-  DrawFont();
-  DrawLines(); /*! \todo */
-  DrawCircles();
+  //DrawFont();
+  //DrawLines(); /*! \todo */
+  //DrawCircles();
 #endif
 #if PL_CONFIG_HAS_LCD_MENU
   LCDMenu_InitMenu(menus, sizeof(menus)/sizeof(menus[0]), 1);
