@@ -39,7 +39,7 @@ void RTOS_Init(void) {
 									&taskBlinkHndl
 									);
 
-#if PL_LOCAL_CONFIG_BOARD_IS_REMOTE
+#elif PL_LOCAL_CONFIG_BOARD_IS_REMOTE
 BaseType_t res;
 xTaskHandle taskHndl;
 res = xTaskCreate(BlinkTask, "Blink", configMINIMAL_STACK_SIZE+50, (void*) NULL, tskIDLE_PRIORITY, &taskHndl);
@@ -50,4 +50,4 @@ void RTOS_Deinit(void) {
   /* nothing needed for now */
 }
 
-#endif /* PL_CONFIG_HAS_RTOS */
+//#endif /* PL_CONFIG_HAS_RTOS */
