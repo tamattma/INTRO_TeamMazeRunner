@@ -25,7 +25,7 @@ static void BlinkTask(void *pvParameters) {
 		vTaskDelayUntil(&xLastWakeTime, 500/portTICK_PERIOD_MS );
 	}
 }
-#endif
+
 void RTOS_Init(void) {
   /*! \todo Create tasks here */
 #if PL_LOCAL_CONFIG_BOARD_IS_ROBO
@@ -50,4 +50,4 @@ void RTOS_Deinit(void) {
   /* nothing needed for now */
 }
 
-//#endif /* PL_CONFIG_HAS_RTOS */
+#endif /* PL_CONFIG_HAS_RTOS */
