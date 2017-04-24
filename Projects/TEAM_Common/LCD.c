@@ -111,7 +111,7 @@ static void ShowTextOnLCD(unsigned char *text) {
 
 static void LCD_Task(void *param) {
   (void)param; /* not used */
-#if 0
+#if 1
   ShowTextOnLCD("Press a key!");
   DrawText();
   /* \todo extend */
