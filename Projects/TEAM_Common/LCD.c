@@ -139,7 +139,7 @@ static void LCD_Task(void *param) {
       requestLCDUpdate = FALSE;
       LCDMenu_OnEvent(LCDMENU_EVENT_DRAW, NULL);
     }
-#if 0 /*! \todo Change this to for your own needs, or use direct task notification */
+#if 1 /*! \todo Change this to for your own needs, or use direct task notification */
     if (EVNT_EventIsSetAutoClear(EVNT_LCD_BTN_LEFT)) { /* left */
       LCDMenu_OnEvent(LCDMENU_EVENT_LEFT, NULL);
 //      ShowTextOnLCD("left");
