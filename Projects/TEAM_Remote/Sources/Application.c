@@ -70,7 +70,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW1_PRESSED: // Joystick nach rechts
-	  EVNT_SetEvent(LCD_BTN_Events.LCD_BTN_RIGHT);
+	  EVNT_SetEvent(LCD_BTN_RIGHT);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  I'm alive!!!\r\n", CLS1_GetStdio()->stdOut);
@@ -87,7 +87,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW2_PRESSED: // Joystick nach links
-	  EVNT_SetEvent(LCD_BTN_Events.LCD_BTN_LEFT);
+	  EVNT_SetEvent(LCD_BTN_LEFT);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  Feed me!!!\r\n", CLS1_GetStdio()->stdOut);
@@ -104,7 +104,7 @@ void APP_EventHandler(EVNT_Handle event) {
   	  break;
 
   case EVNT_SW3_PRESSED: // Joystick nach unten
-	  EVNT_SetEvent(LCD_BTN_Events.LCD_BTN_DOWN);
+	  EVNT_SetEvent(LCD_BTN_DOWN);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  I'm hungry!\r\n", CLS1_GetStdio()->stdOut);
@@ -121,7 +121,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW4_PRESSED: // Joystick gedrückt
-	  EVNT_SetEvent(LCD_BTN_Events.LCD_BTN_CENTER);
+	  EVNT_SetEvent(LCD_BTN_CENTER);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  Entertain me!\r\n", CLS1_GetStdio()->stdOut);
@@ -138,7 +138,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW5_PRESSED: // Joystick nach oben
-	  EVNT_SetEvent(LCD_BTN_Events.LCD_BTN_UP);
+	  EVNT_SetEvent(LCD_BTN_UP);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  Send me some data!\r\n", CLS1_GetStdio()->stdOut);
