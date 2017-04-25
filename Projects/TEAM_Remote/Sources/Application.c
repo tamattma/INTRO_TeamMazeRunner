@@ -139,7 +139,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW5_PRESSED: // Joystick nach oben
-	  LCD_SetEvent(LCDMENU_EVENT_UP);
+	  LCD_SetEvent(LCD_BTN_UP);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  Send me some data!\r\n", CLS1_GetStdio()->stdOut);
