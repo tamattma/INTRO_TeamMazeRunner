@@ -140,31 +140,31 @@ static void LCD_Task(void *param) {
       LCDMenu_OnEvent(LCDMENU_EVENT_DRAW, NULL);
     }
 #if 1 /*! \todo Change this to for your own needs, or use direct task notification */
-    if (EVNT_EventIsSetAutoClear(EVNT_LCD_BTN_LEFT)) { /* left */
+    if (EVNT_EventIsSetAutoClear(LCD_BTN_LEFT)) { /* left */
       LCDMenu_OnEvent(LCDMENU_EVENT_LEFT, NULL);
 //      ShowTextOnLCD("left");
     }
-    if (EVNT_EventIsSetAutoClear(EVNT_LCD_BTN_RIGHT)) { /* right */
+    if (EVNT_EventIsSetAutoClear(LCD_BTN_RIGHT)) { /* right */
       LCDMenu_OnEvent(LCDMENU_EVENT_RIGHT, NULL);
 //      ShowTextOnLCD("right");
     }
-    if (EVNT_EventIsSetAutoClear(EVNT_LCD_BTN_UP)) { /* up */
+    if (EVNT_EventIsSetAutoClear(LCD_BTN_UP)) { /* up */
       LCDMenu_OnEvent(LCDMENU_EVENT_UP, NULL);
 //      ShowTextOnLCD("up");
     }
-    if (EVNT_EventIsSetAutoClear(EVNT_LCD_BTN_DOWN)) { /* down */
+    if (EVNT_EventIsSetAutoClear(LCD_BTN_DOWN)) { /* down */
       LCDMenu_OnEvent(LCDMENU_EVENT_DOWN, NULL);
 //      ShowTextOnLCD("down");
     }
-    if (EVNT_EventIsSetAutoClear(EVNT_LCD_BTN_CENTER)) { /* center */
+    if (EVNT_EventIsSetAutoClear(LCD_BTN_CENTER)) { /* center */
       LCDMenu_OnEvent(LCDMENU_EVENT_ENTER, NULL);
 //      ShowTextOnLCD("center");
     }
-    if (EVNT_EventIsSetAutoClear(EVNT_LCD_SIDE_BTN_UP)) { /* side up */
+    if (EVNT_EventIsSetAutoClear(LCD_SIDE_BTN_UP)) { /* side up */
       LCDMenu_OnEvent(LCDMENU_EVENT_UP, NULL);
 //      ShowTextOnLCD("side up");
     }
-    if (EVNT_EventIsSetAutoClear(EVNT_LCD_SIDE_BTN_DOWN)) { /* side down */
+    if (EVNT_EventIsSetAutoClear(LCD_SIDE_BTN_DOWN)) { /* side down */
       LCDMenu_OnEvent(LCDMENU_EVENT_DOWN, NULL);
 //      ShowTextOnLCD("side down");
     }
