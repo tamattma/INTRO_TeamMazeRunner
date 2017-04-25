@@ -86,16 +86,16 @@ static const LCDMenu_MenuItem menus[] =
       {LCD_MENU_ID_BACKLIGHT,                 1,   0,   LCD_MENU_ID_MAIN,         LCD_MENU_ID_NONE,                 NULL,           BackLightMenuHandler,         LCDMENU_MENU_FLAGS_NONE},
       {LCD_MENU_ID_NUM_VALUE,                 1,   1,   LCD_MENU_ID_MAIN,         LCD_MENU_ID_NONE,                 NULL,           ValueChangeHandler,           LCDMENU_MENU_FLAGS_EDITABLE},
 };
-
+/*
 uint8_t LCD_HandleRemoteRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *data, RNWK_ShortAddrType srcAddr, bool *handled, RPHY_PacketDesc *packet) {
   (void)size;
   (void)packet;
   switch(type) {
      default:
       break;
-  } /* switch */
+  } /* switch
   return ERR_OK;
-}
+}*/
 #endif /* PL_CONFIG_HAS_LCD_MENU */
 
 
@@ -113,9 +113,9 @@ static void LCD_Task(void *param) {
   (void)param; /* not used */
 #if 1
   ShowTextOnLCD("Press a key!");
-  GDisp1_DrawBox(2, 2,
-		  	  	  GDisp1_GetWidth()-4,
-				  GDisp1_GetHeight()-4,
+  GDisp1_DrawBox(0, 0,
+		  	  	  GDisp1_GetWidth(),
+				  GDisp1_GetHeight(),
 				  1, GDisp1_COLOR_BLACK);
   GDisp1_UpdateFull();
   //DrawText();
