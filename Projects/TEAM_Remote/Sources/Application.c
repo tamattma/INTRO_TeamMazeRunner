@@ -41,6 +41,7 @@
 #endif
 #if PL_CONFIG_HAS_LCD_MENU
   #include "LCD.h"
+#include "LCDMenu.h"
 #endif
 
 
@@ -70,7 +71,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW1_PRESSED: // Joystick nach rechts
-	  EVNT_SetEvent(LCD_BTN_RIGHT);
+	  LCD_SetEvent(LCD_BTN_RIGHT);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  I'm alive!!!\r\n", CLS1_GetStdio()->stdOut);
@@ -87,7 +88,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW2_PRESSED: // Joystick nach links
-	  EVNT_SetEvent(LCD_BTN_LEFT);
+	  LCD_SetEvent(LCD_BTN_LEFT);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  Feed me!!!\r\n", CLS1_GetStdio()->stdOut);
@@ -104,7 +105,7 @@ void APP_EventHandler(EVNT_Handle event) {
   	  break;
 
   case EVNT_SW3_PRESSED: // Joystick nach unten
-	  EVNT_SetEvent(LCD_BTN_DOWN);
+	  LCD_SetEvent(LCD_BTN_DOWN);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  I'm hungry!\r\n", CLS1_GetStdio()->stdOut);
@@ -121,7 +122,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW4_PRESSED: // Joystick gedrückt
-	  EVNT_SetEvent(LCD_BTN_CENTER);
+	  LCD_SetEvent(LCD_BTN_CENTER);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  Entertain me!\r\n", CLS1_GetStdio()->stdOut);
@@ -138,7 +139,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW5_PRESSED: // Joystick nach oben
-	  EVNT_SetEvent(LCD_BTN_UP);
+	  LCD_SetEvent(LCDMENU_EVENT_UP);
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  Send me some data!\r\n", CLS1_GetStdio()->stdOut);
@@ -247,6 +248,16 @@ static void APP_AdoptToHardware(void) {
 
 #include "CLS1.h"
 
+void App_HandleEvents()
+{
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+	for(;;){
+		KEY_Scan();
+		EVNT_HandleEvent(APP_EventHandler, TRUE);
+		vTaskDelayUntil(&xLastWakeTime, 500/portTICK_PERIOD_MS);
+	}
+}
+
 void APP_Start(void) {
 #if PL_CONFIG_HAS_RTOS
 #if configUSE_TRACE_HOOKS /* FreeRTOS using Percepio Trace */
@@ -266,7 +277,10 @@ void APP_Start(void) {
 #endif
   APP_AdoptToHardware();
 #if PL_CONFIG_HAS_RTOS
-  vTaskStartScheduler(); /* start the RTOS, create the IDLE task and run my tasks (if any) */
+  BaseType_t res;
+  xTaskHandle taskHndl;
+  res = xTaskCreate(App_HandleEvents, "EvntHandler", configMINIMAL_STACK_SIZE+50, (void*) NULL, tskIDLE_PRIORITY+1, &taskHndl);
+ vTaskStartScheduler(); /* start the RTOS, create the IDLE task and run my tasks (if any) */
   /* does usually not return! */
 #else
   __asm volatile("cpsie i"); /* enable interrupts */

@@ -189,4 +189,39 @@ void LCD_Init(void) {
   LCDMenu_Init();
 #endif
 }
+
+void LCD_SetEvent(LCD_BTN_Events event){
+	switch(event){
+	case LCD_BTN_LEFT:
+#if PL_CONFIG_HAS_LCD_MENU
+		LCDMenu_OnEvent(LCDMENU_EVENT_LEFT,NULL);
+#endif
+		break;
+
+	case LCD_BTN_RIGHT:
+#if PL_CONFIG_HAS_LCD_MENU
+		LCDMenu_OnEvent(LCDMENU_EVENT_RIGHT,NULL);
+#endif
+		break;
+
+	case LCD_BTN_UP:
+#if PL_CONFIG_HAS_LCD_MENU
+		LCDMenu_OnEvent(LCDMENU_EVENT_UP,NULL);
+#endif
+		break;
+
+	case LCD_BTN_DOWN:
+#if PL_CONFIG_HAS_LCD_MENU
+		LCDMenu_OnEvent(LCDMENU_EVENT_DOWN,NULL);
+#endif
+		break;
+
+	case LCD_BTN_CENTER:
+#if PL_CONFIG_HAS_LCD_MENU
+		LCDMenu_OnEvent(LCDMENU_EVENT_ENTER,NULL);
+#endif
+		break;
+	}
+}
+
 #endif /* PL_CONFIG_HAS_LCD */
