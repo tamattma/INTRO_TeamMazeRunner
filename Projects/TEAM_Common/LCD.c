@@ -113,6 +113,11 @@ static void LCD_Task(void *param) {
   (void)param; /* not used */
 #if 1
   ShowTextOnLCD("Press a key!");
+  GDisp1_DrawBox(2, 2,
+		  	  	  GDisp1_GetWidth()-4,
+				  GDisp1_GetHeight()-4,
+				  1, GDisp1_COLOR_BLACK);
+  GDisp1_UpdateFull();
   //DrawText();
   /* \todo extend */
   //DrawFont();
