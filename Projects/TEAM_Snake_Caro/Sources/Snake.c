@@ -63,9 +63,51 @@ static GDisp1_PixelDim snakeCols[SNAKE_MAX_LEN];
 /* of the snake {cols [snake_lenght], row [snake_lenght]} correspond to the tail */
 static GDisp1_PixelDim snakeRow[SNAKE_MAX_LEN];
 
+/* Events ausgelöst über buttons */
+bool leftEVNT;
+bool rightEVNT;
+bool upEVNT;
+bool downEVNT;
+bool pauseEVNT;
+bool anyButton;
+
+/* Status of the Game */
+Snake_Status SnakeState = Snake_NotRunning;;
+
+void Snake_SetLeftEVNT(){	/* left button pressed */
+	leftEVNT = TRUE;
+}
+
+void Snake_SetRightEVNT(){	/* right button pressed */
+	rightEVNT = TRUE;
+}
+
+void Snake_SetUpEVNT(){		/* up button pressed */
+	upEVNT = TRUE;
+}
+
+void Snake_SetDownEVNT(){	/* down button pressed */
+	downEVNT = TRUE;
+}
+
+void Snake_SetPauseEVNT(){	/* center button pressed */
+	pauseEVNT = TRUE;
+}
+
+void Snake_AnyButton(){		/* any button pressed */
+	anyButton = TRUE;
+}
+
+Snake_Status Snake_GetStatus(){	/* get state of game */
+	return SnakeState;
+}
+
 
 static void waitAnyButton(void) {
   /*! \todo Wait for any button pressed */
+	while(!anyButton){
+		vTaskDelay(100);
+	}
 }
 
 static void delay(int ms) {
@@ -229,40 +271,43 @@ static void direc(int d) {
 static void moveSnake(void) {
   /* LEFT */
   /*! \todo handle events */
-  if("left event" && !right) {
+  if(leftEVNT && !right) {
     if((xSnake > 0 || xSnake <= GDisp1_GetWidth() - xSnake)) {
       direc(LEFT);
     }
-    return;
   }
   /* RIGHT */
-  if("right event" && !left) {
+  if(rightEVNT && !left) {
     if((xSnake > 0 || xSnake <= GDisp1_GetWidth() - xSnake)) {
       direc(RIGHT);
     }
-    return;
   }
   /* UP */
-  if("up event" && !down) {
+  if(upEVNT && !down) {
     if((ySnake > 0 || ySnake <= GDisp1_GetHeight() - ySnake)) {
       direc(UP);
     }
-    return;
   }
   /* DOWN */
-  if("down event" && !up) {
+  if(downEVNT && !up) {
     if((ySnake > 0 || ySnake <= GDisp1_GetHeight() - ySnake)) {
       direc(DOWN);
     }
-    return;
   }
   /* START/PAUSE */
-  if("start/pause event") {
+  if(pauseEVNT) {
+	SnakeState = Snake_Pause;
     showPause();
   }
+  leftEVNT = FALSE;
+  rightEVNT = FALSE;
+  upEVNT = FALSE;
+  downEVNT = FALSE;
+  pauseEVNT = FALSE;
 }
 
 static void gameover(void) {
+  SnakeState = Snake_Pause;
   FDisp1_PixelDim x, y;
   FDisp1_PixelDim charHeight, totalHeight;
   GFONT_Callbacks *font = GFONT1_GetFont();
@@ -299,7 +344,7 @@ static void gameover(void) {
 
 static void snake(void) {
   int i;
-  
+  SnakeState = Snake_Running;
   xSnake = snakeCols[0];
   ySnake = snakeRow[0];
   if(point == 0 || point >= points) {
@@ -384,6 +429,7 @@ static void intro(void) {
 }
 
 static void SnakeTask(void *pvParameters) {
+  SnakeState = Snake_StartUp;
   intro();
   resetGame();
   for(;;) {
@@ -398,5 +444,6 @@ void SNAKE_Deinit(void) {
 
 void SNAKE_Init(void) {
   /*! \todo implement init */
+	SnakeState = Snake_NotRunning;
 }
 #endif /* PL_HAS_SNAKE_GAME */

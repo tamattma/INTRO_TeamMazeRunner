@@ -14,6 +14,8 @@
 /* board identification: */
 #define PL_LOCAL_CONFIG_BOARD_IS_REMOTE     (1) /* I'm the REMOTE board */
 
+#define PL_CONFIG_HAS_SNAKE_GAME			(1)	/* snake game */
+
 /* platform hardware configuration */
 #define PL_LOCAL_CONFIG_NOF_LEDS            (1) /* number of LEDs, 0 to 3 */
 #define PL_LOCAL_CONFIG_NOF_KEYS            (7) /* number of keys, 0 to 7 */
