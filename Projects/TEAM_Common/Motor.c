@@ -35,12 +35,12 @@ static uint8_t PWMRSetRatio16(uint16_t ratio) {
 
 static void DirLPutVal(bool val) {
   /*! \todo Check if directions are working properly with your hardware */
-  DIRL_PutVal(val);
+  DIRL_PutVal(!val);
 }
 
 static void DirRPutVal(bool val) {
   /*! \todo Check if directions are working properly with your hardware */
-  DIRR_PutVal(val);
+  DIRR_PutVal(!val);
 }
 
 void MOT_SetVal(MOT_MotorDevice *motor, uint16_t val) {
@@ -205,7 +205,7 @@ uint8_t MOT_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_Std
 #endif /* PL_CONFIG_HAS_SHELL */
 
 void MOT_Deinit(void) {
-  /* nothig needed for now */
+  /* nothing needed for now */
 }
 
 void MOT_Init(void) {
