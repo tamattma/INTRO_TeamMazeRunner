@@ -36,7 +36,7 @@ void DBNC_Process(DBNC_FSMData *data) {
       case DBNC_KEY_IDLE: /* idle, and now getting a key */
         data->scanValue = data->getKeys();
         data->longKeyCnt = 1; /* zero is a special value */
-#if 0 /* \todo call event if you want to be notified here */
+#if 1 /* \todo call event if you want to be notified here */
         data->onDebounceEvent(DBNC_EVENT_PRESSED, data->scanValue); /* we have a key press: call event handler  */
 #endif
         data->state = DBNC_KEY_PRESSED; /* advance to next state */
