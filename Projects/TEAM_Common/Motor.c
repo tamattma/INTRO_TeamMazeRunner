@@ -40,7 +40,7 @@ static void DirLPutVal(bool val) {
 
 static void DirRPutVal(bool val) {
   /*! \todo Check if directions are working properly with your hardware */
-  DIRR_PutVal(!val);
+  DIRR_PutVal(val);
 }
 
 void MOT_SetVal(MOT_MotorDevice *motor, uint16_t val) {
@@ -211,7 +211,7 @@ void MOT_Deinit(void) {
 void MOT_Init(void) {
 #if MOTOR_HAS_INVERT
   motorL.inverted = FALSE;
-  motorR.inverted = FALSE;
+  motorR.inverted = TRUE;
 #endif
   motorL.DirPutVal = DirLPutVal;
   motorR.DirPutVal = DirRPutVal;
