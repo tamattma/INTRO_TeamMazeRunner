@@ -11,29 +11,11 @@
 
 /*! \todo Extend interface as needed */
 
-/*
- * status
- */
-typedef enum {
-	Snake_NotRunning,
-	Snake_StartUp,
-	Snake_Running,
-	Snake_Pause
-}Snake_Status;
-
-Snake_Status Snake_GetStatus();	/* get the satus of the snake game */
-
-void Snake_SetLeftEVNT();	/* left button pressed */
-
-void Snake_SetRightEVNT();	/* right button pressed */
-
-void Snake_SetUpEVNT();		/* up button pressed */
-
-void Snake_SetDownEVNT();	/* down button pressed */
-
-void Snake_SetPauseEVNT();	/* center button pressed */
-
-void Snake_AnyButton();		/* any button pressed */
+void SNAKE_ButtonLeft(void);
+void SNAKE_ButtonRight(void);
+void SNAKE_ButtonUp(void);
+void SNAKE_ButtonDown(void);
+void SNAKE_ButtonCenter(void);
 
 /*!
  * \brief Driver de-initialization.

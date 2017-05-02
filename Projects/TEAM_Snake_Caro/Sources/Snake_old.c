@@ -22,8 +22,9 @@
 #include "GDisp1.h"
 #include "FDisp1.h"
 #include "GFONT1.h"
-#include "Snake.h"
+#include "Snake_old.h"
 #include "UTIL1.h"
+#include "CLS1.h"
 #include "FRTOS1.h"
 #include "Event.h"
 
@@ -63,35 +64,50 @@ static GDisp1_PixelDim snakeCols[SNAKE_MAX_LEN];
 /* of the snake {cols [snake_lenght], row [snake_lenght]} correspond to the tail */
 static GDisp1_PixelDim snakeRow[SNAKE_MAX_LEN];
 
-bool EventLeft;
-bool EventRight;
-bool EventUp;
-bool EventDown;
-bool EventCenter;
+/* Events ausgelöst über buttons */
+bool leftEVNT;
+bool rightEVNT;
+bool upEVNT;
+bool downEVNT;
+bool pauseEVNT;
+bool anyButton;
 
-void SNAKE_ButtonLeft(void){
-	EventLeft = TRUE;
+/* Status of the Game */
+Snake_Status SnakeState = Snake_NotRunning;;
+
+void Snake_SetLeftEVNT(){	/* left button pressed */
+	leftEVNT = TRUE;
 }
-void SNAKE_ButtonRight(void){
-	EventRight = TRUE;
+
+void Snake_SetRightEVNT(){	/* right button pressed */
+	rightEVNT = TRUE;
 }
-void SNAKE_ButtonUp(void){
-	EventUp = TRUE;
+
+void Snake_SetUpEVNT(){		/* up button pressed */
+	upEVNT = TRUE;
 }
-void SNAKE_ButtonDown(void){
-	EventDown = TRUE;
+
+void Snake_SetDownEVNT(){	/* down button pressed */
+	downEVNT = TRUE;
 }
-void SNAKE_ButtonCenter(void){
-	EventCenter = TRUE;
+
+void Snake_SetPauseEVNT(){	/* center button pressed */
+	pauseEVNT = TRUE;
+}
+
+void Snake_AnyButton(){		/* any button pressed */
+	anyButton = TRUE;
+}
+
+Snake_Status Snake_GetStatus(){	/* get state of game */
+	return SnakeState;
 }
 
 
 static void waitAnyButton(void) {
   /*! \todo Wait for any button pressed */
-	bool temp = EventLeft||EventRight||EventUp||EventDown||EventCenter;
-	while (!temp){
-		vTaskDelay(1);
-		bool temp = EventLeft||EventRight||EventUp||EventDown||EventCenter;
+	while(!anyButton){
+		vTaskDelay(100);
 	}
 }
 
@@ -256,49 +272,43 @@ static void direc(int d) {
 static void moveSnake(void) {
   /* LEFT */
   /*! \todo handle events */
-  if(EventLeft && !right) {
-	  EventLeft = FALSE;
+  if(leftEVNT && !right) {
     if((xSnake > 0 || xSnake <= GDisp1_GetWidth() - xSnake)) {
       direc(LEFT);
     }
-    return;
   }
   /* RIGHT */
-  if(EventRight && !left) {
-	  EventRight = FALSE;
+  if(rightEVNT && !left) {
     if((xSnake > 0 || xSnake <= GDisp1_GetWidth() - xSnake)) {
       direc(RIGHT);
     }
-    return;
   }
   /* UP */
-  if(EventUp && !down) {
-	  EventUp = FALSE;
+  if(upEVNT && !down) {
     if((ySnake > 0 || ySnake <= GDisp1_GetHeight() - ySnake)) {
       direc(UP);
     }
-    return;
   }
   /* DOWN */
-  if(EventDown && !up) {
-	  EventDown = FALSE;
+  if(downEVNT && !up) {
     if((ySnake > 0 || ySnake <= GDisp1_GetHeight() - ySnake)) {
       direc(DOWN);
     }
-    return;
   }
   /* START/PAUSE */
-  if(EventCenter) {
-	EventCenter = FALSE;
+  if(pauseEVNT) {
+	SnakeState = Snake_Pause;
     showPause();
   }
-  EventLeft = FALSE;
-  EventRight = FALSE;
-  EventUp = FALSE;
-  EventDown = FALSE;
+  leftEVNT = FALSE;
+  rightEVNT = FALSE;
+  upEVNT = FALSE;
+  downEVNT = FALSE;
+  pauseEVNT = FALSE;
 }
 
 static void gameover(void) {
+  SnakeState = Snake_Pause;
   FDisp1_PixelDim x, y;
   FDisp1_PixelDim charHeight, totalHeight;
   GFONT_Callbacks *font = GFONT1_GetFont();
@@ -335,7 +345,7 @@ static void gameover(void) {
 
 static void snake(void) {
   int i;
-  
+  SnakeState = Snake_Running;
   xSnake = snakeCols[0];
   ySnake = snakeRow[0];
   if(point == 0 || point >= points) {
@@ -419,7 +429,39 @@ static void intro(void) {
   WAIT1_WaitOSms(3000);
 }
 
+static uint8_t Snake_PrintHelp(const CLS1_StdIOType *io) {
+  CLS1_SendHelpStr("Snake", "Snake commands\r\n", io->stdOut);
+  CLS1_SendHelpStr("  help|status", "Print help or status information\r\n", io->stdOut);
+  CLS1_SendHelpStr("  start", "Starts the game\r\n", io->stdOut);
+  return ERR_OK;
+}
+
+static uint8_t Snake_PrintStatus(const CLS1_StdIOType *io) {
+  uint8_t buf[16];
+
+  CLS1_SendStatusStr("Shell", "\r\n", io->stdOut);
+  CLS1_SendStatusStr("  not running", buf, io->stdOut);
+  return ERR_OK;
+}
+
+
+/*uint8_t Snake_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
+  if (UTIL1_strcmp((char*)cmd, CLS1_CMD_HELP)==0 || UTIL1_strcmp((char*)cmd, "Snake help")==0) {
+    *handled = TRUE;
+    return Snake_PrintHelp(io);
+  } else if (UTIL1_strcmp((char*)cmd, CLS1_CMD_STATUS)==0 || UTIL1_strcmp((char*)cmd, "Snake status")==0) {
+    *handled = TRUE;
+    return Snake_PrintStatus(io);
+  } else if (UTIL1_strcmp((char*)cmd, CLS1_CMD_STATUS)==0 || UTIL1_strcmp((char*)cmd, "Snake start")==0) {
+    *handled = TRUE;
+    SNAKE_Init();
+    return ERR_OK;
+  }
+  return ERR_OK;
+}*/
+
 static void SnakeTask(void *pvParameters) {
+  SnakeState = Snake_StartUp;
   intro();
   resetGame();
   for(;;) {
@@ -428,14 +470,15 @@ static void SnakeTask(void *pvParameters) {
   }
 }
 
-void SNAKE_Deinit(void) {
+void SNAKE_old_Deinit(void) {
   /* nothing to do? */
 }
 
-void SNAKE_Init(void) {
+void SNAKE_old_Init(void) {
   /*! \todo implement init */
+	SnakeState = Snake_NotRunning;
 	if (FRTOS1_xTaskCreate(SnakeTask, "Snake", configMINIMAL_STACK_SIZE+100, NULL, tskIDLE_PRIORITY+3, NULL) != pdPASS) {
 	    for(;;){} /* error */
-	}
+	  }
 }
 #endif /* PL_HAS_SNAKE_GAME */
