@@ -88,10 +88,42 @@ void SNAKE_ButtonCenter(void){
 
 static void waitAnyButton(void) {
   /*! \todo Wait for any button pressed */
-	bool temp = EventLeft||EventRight||EventUp||EventDown||EventCenter;
+	bool temp = FALSE;
+	if (EventLeft){
+		temp = TRUE;
+	} else if (EventRight){
+		temp = TRUE;
+	} else if (EventUp){
+		temp = TRUE;
+	} else if (EventDown){
+		temp = TRUE;
+	} else if (EventCenter){
+		temp = TRUE;
+	}
+	EventLeft = FALSE;
+	EventRight = FALSE;
+	EventUp = FALSE;
+	EventDown = FALSE;
+	EventCenter = FALSE;
+
 	while (!temp){
-		vTaskDelay(1);
-		bool temp = EventLeft||EventRight||EventUp||EventDown||EventCenter;
+		vTaskDelay(pdMS_TO_TICKS(10));
+		if (EventLeft){
+			temp = TRUE;
+		} else if (EventRight){
+			temp = TRUE;
+		} else if (EventUp){
+			temp = TRUE;
+		} else if (EventDown){
+			temp = TRUE;
+		} else if (EventCenter){
+			temp = TRUE;
+		}
+		EventLeft = FALSE;
+		EventRight = FALSE;
+		EventUp = FALSE;
+		EventDown = FALSE;
+		EventCenter = FALSE;
 	}
 }
 
