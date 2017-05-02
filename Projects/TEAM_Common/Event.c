@@ -14,7 +14,7 @@
 #include "Event.h" /* our own interface */
 #include "CS1.h"
 
-typedef uint8_t EVNT_MemUnit; /*!< memory unit used to store events flags */
+typedef uint32_t EVNT_MemUnit; /*!< memory unit used to store events flags */
 #define EVNT_MEM_UNIT_NOF_BITS  (sizeof(EVNT_MemUnit)*8u)
   /*!< number of bits in memory unit */
 
@@ -44,13 +44,13 @@ void EVNT_ClearEvent(EVNT_Handle event) {
 }
 
 bool EVNT_EventIsSet(EVNT_Handle event) {
-  bool res;
+  EVNT_MemUnit res;
   CS1_CriticalVariable();
 
   CS1_EnterCritical();
   res = GET_EVENT(event);
   CS1_ExitCritical();
-  return res;
+  return res!=0;
 }
 
 bool EVNT_EventIsSetAutoClear(EVNT_Handle event) {
