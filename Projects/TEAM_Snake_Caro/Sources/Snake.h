@@ -10,6 +10,7 @@
 #define SNAKE_H_
 
 /*! \todo Extend interface as needed */
+bool SNAKE_Running;
 
 void SNAKE_ButtonLeft(void);
 void SNAKE_ButtonRight(void);

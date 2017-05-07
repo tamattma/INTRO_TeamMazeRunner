@@ -74,19 +74,11 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW1_PRESSED: // Joystick nach rechts
-	  SNAKE_ButtonRight();
-	  /*gameState = Snake_GetStatus();
-	  if (gameState != Snake_NotRunning){
-		  if (gameState = Snake_Running){
-			  Snake_SetRightEVNT();
-		  }
-		  else if (gameState = Snake_Pause){
-			  Snake_AnyButton();
-		  }
+	  if(SNAKE_Running){
+		  SNAKE_ButtonRight();
+	  } else {
+		  LCD_SetEvent(LCD_BTN_RIGHT);
 	  }
-	  else{
-		  //LCD_SetEvent(LCD_BTN_RIGHT);
-	  }*/
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  I'm alive!!!\r\n", CLS1_GetStdio()->stdOut);
@@ -103,19 +95,11 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW2_PRESSED: // Joystick nach links
-	  SNAKE_ButtonLeft();
-	  /*gameState = Snake_GetStatus();
-	  if (gameState != Snake_NotRunning){
-		  if (gameState = Snake_Running){
-			  Snake_SetLeftEVNT();
-		  }
-		  else if (gameState = Snake_Pause){
-			  Snake_AnyButton();
-		  }
+	  if(SNAKE_Running){
+		  SNAKE_ButtonLeft();
+	  } else {
+		  LCD_SetEvent(LCD_BTN_LEFT);
 	  }
-	  else{
-		  //LCD_SetEvent(LCD_BTN_LEFT);
-	  }*/
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  Feed me!!!\r\n", CLS1_GetStdio()->stdOut);
@@ -132,19 +116,11 @@ void APP_EventHandler(EVNT_Handle event) {
   	  break;
 
   case EVNT_SW3_PRESSED: // Joystick nach unten
-	  SNAKE_ButtonDown();
-	  /*gameState = Snake_GetStatus();
-	  if (gameState != Snake_NotRunning){
-		  if (gameState = Snake_Running){
-			  Snake_SetDownEVNT();
-		  }
-		  else if (gameState = Snake_Pause){
-			  Snake_AnyButton();
-		  }
+	  if(SNAKE_Running){
+		  SNAKE_ButtonDown();
+	  } else {
+		  LCD_SetEvent(LCD_BTN_DOWN);
 	  }
-	  else{
-		  //LCD_SetEvent(LCD_BTN_DOWN);
-	  }*/
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  I'm hungry!\r\n", CLS1_GetStdio()->stdOut);
@@ -161,19 +137,11 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW4_PRESSED: // Joystick gedrückt
-	  SNAKE_ButtonCenter();
-	  /*gameState = Snake_GetStatus();
-	  if (gameState != Snake_NotRunning){
-		  if (gameState = Snake_Running){
-			  Snake_SetPauseEVNT();
-		  }
-		  else if (gameState = Snake_Pause){
-			  Snake_AnyButton();
-		  }
+	  if(SNAKE_Running){
+		  SNAKE_ButtonCenter();
+	  } else {
+		  LCD_SetEvent(LCD_BTN_CENTER);
 	  }
-	  else{
-		  //LCD_SetEvent(LCD_BTN_CENTER);
-	  }*/
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  Entertain me!\r\n", CLS1_GetStdio()->stdOut);
@@ -190,19 +158,11 @@ void APP_EventHandler(EVNT_Handle event) {
 	  break;
 
   case EVNT_SW5_PRESSED: // Joystick nach oben
-	  SNAKE_ButtonUp();
-	  /*gameState = Snake_GetStatus();
-	  if (gameState != Snake_NotRunning){
-		  if (gameState = Snake_Running){
-			  Snake_SetUpEVNT();
-		  }
-		  else if (gameState = Snake_Pause){
-			  Snake_AnyButton();
-		  }
+	  if(SNAKE_Running){
+		  SNAKE_ButtonUp();
+	  } else {
+		  LCD_SetEvent(LCD_BTN_UP);
 	  }
-	  else{
-		  //LCD_SetEvent(LCD_BTN_UP);
-	  }*/
 	  //LED1_On();
 	  //CLS1_SendNum32s(cntr++, CLS1_GetStdio()->stdOut);
 	  //CLS1_SendStr((uint8_t*)"  Send me some data!\r\n", CLS1_GetStdio()->stdOut);
@@ -342,7 +302,7 @@ void APP_Start(void) {
 #if PL_CONFIG_HAS_RTOS
   BaseType_t res;
   xTaskHandle taskHndl;
-  res = xTaskCreate(App_HandleEvents, "EvntHandler", configMINIMAL_STACK_SIZE+50, (void*) NULL, tskIDLE_PRIORITY+1, &taskHndl);
+  res = xTaskCreate(App_HandleEvents, "EvntHandler", configMINIMAL_STACK_SIZE+50, (void*) NULL, tskIDLE_PRIORITY+2, &taskHndl);
  vTaskStartScheduler(); /* start the RTOS, create the IDLE task and run my tasks (if any) */
   /* does usually not return! */
 #else

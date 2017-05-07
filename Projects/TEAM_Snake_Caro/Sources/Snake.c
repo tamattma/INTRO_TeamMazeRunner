@@ -39,7 +39,7 @@
 
 /* defaults */
 #define SNAKE_LEN   10 /* initial snake len */
-#define SNAKE_SPEED 20 /* initial delay in ms */
+#define SNAKE_SPEED 40 /* initial delay in ms */
 
 /* snake length */
 static int snakeLen = SNAKE_LEN;
@@ -466,7 +466,8 @@ void SNAKE_Deinit(void) {
 
 void SNAKE_Init(void) {
   /*! \todo implement init */
-	if (FRTOS1_xTaskCreate(SnakeTask, "Snake", configMINIMAL_STACK_SIZE+100, NULL, tskIDLE_PRIORITY+3, NULL) != pdPASS) {
+	SNAKE_Running = TRUE;
+	if (FRTOS1_xTaskCreate(SnakeTask, "Snake", configMINIMAL_STACK_SIZE+100, NULL, tskIDLE_PRIORITY+1, NULL) != pdPASS) {
 	    for(;;){} /* error */
 	}
 }

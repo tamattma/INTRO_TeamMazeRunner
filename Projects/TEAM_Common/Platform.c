@@ -155,9 +155,6 @@ void PL_Init(void) {
 #if PL_CONFIG_HAS_BATTERY_ADC
   BATT_Init();
 #endif
-#if PL_CONFIG_HAS_SNAKE_GAME
-  SNAKE_Init();
-#endif
 }
 
 void PL_Deinit(void) {
