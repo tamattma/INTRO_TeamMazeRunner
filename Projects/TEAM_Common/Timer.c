@@ -38,6 +38,9 @@ void TMR_OnInterrupt(void) {
 		TRG_AddTick();
 #endif
 #endif
+#if PL_CONFIG_HAS_MOTOR_TACHO
+		TACHO_Sample();
+#endif
 }
 
 void TMR_Init(void) {
