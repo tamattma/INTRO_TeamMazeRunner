@@ -277,7 +277,7 @@ void App_HandleEvents()
 	for(;;){
 		KEY_Scan();
 		EVNT_HandleEvent(APP_EventHandler, TRUE);
-		vTaskDelayUntil(&xLastWakeTime, 500/portTICK_PERIOD_MS);
+		vTaskDelayUntil(&xLastWakeTime, 50/portTICK_PERIOD_MS);
 	}
 }
 
