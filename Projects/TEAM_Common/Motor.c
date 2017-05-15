@@ -35,7 +35,7 @@ static uint8_t PWMRSetRatio16(uint16_t ratio) {
 
 static void DirLPutVal(bool val) {
   /*! \todo Check if directions are working properly with your hardware */
-  DIRL_PutVal(!val);
+  DIRL_PutVal(val);
 }
 
 static void DirRPutVal(bool val) {
@@ -210,7 +210,7 @@ void MOT_Deinit(void) {
 
 void MOT_Init(void) {
 #if MOTOR_HAS_INVERT
-  motorL.inverted = FALSE;
+  motorL.inverted = TRUE;
   motorR.inverted = TRUE;
 #endif
   motorL.DirPutVal = DirLPutVal;
