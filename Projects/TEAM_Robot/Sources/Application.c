@@ -42,15 +42,17 @@
 #if PL_CONFIG_HAS_LCD_MENU
   #include "LCD.h"
 #endif
+#include "Drive.h"
+#include "Reflectance.h"
 
 #if PL_CONFIG_HAS_EVENTS
 void APP_EventHandler(EVNT_Handle event) {
   /*! \todo handle events */
   switch(event) {
   case EVNT_STARTUP:
-	  BUZ_PlayTune(BUZ_TUNE_WELCOME);
+	  //BUZ_PlayTune(BUZ_TUNE_WELCOME);
     break;
-  case EVNT_LED_HEARTBEAT:
+  /*case EVNT_LED_HEARTBEAT:
 	  //do heartbeat stuff
 	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 1)
 		  LED1_On();
@@ -91,12 +93,24 @@ void APP_EventHandler(EVNT_Handle event) {
 	#if(PL_LOCAL_CONFIG_NOF_LEDS >= 3)
 		  LED3_Off();
 	#endif
-	  break;
+	  break;*/
+
   case EVNT_SW1_PRESSED:
 	  BUZ_PlayTune(BUZ_TUNE_BUTTON);
 	  CLS1_SendStr("Key pressed \n", CLS1_GetStdio()->stdOut);
-	  LED1_Neg();
 	  break;
+
+  case EVNT_SW1_LPRESSED:
+	  BUZ_PlayTune(BUZ_TUNE_BUTTON_LONG);
+  	  CLS1_SendStr("Key long pressed \n", CLS1_GetStdio()->stdOut);
+  	  DRV_SetSpeed(100, 100);
+  	  DRV_SetMode(DRV_MODE_SPEED);
+	  while(REF_GetLineKind()!=REF_LINE_FULL){
+		  vTaskDelay(50/portTICK_PERIOD_MS);
+	  }
+	  DRV_SetMode(DRV_MODE_STOP);
+	  DRV_SetSpeed(0, 0);
+  	  break;
 
 
   default:
@@ -158,6 +172,16 @@ static void APP_AdoptToHardware(void) {
 
 #include "CLS1.h"
 
+void App_HandleEvents(void)
+{
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+	for(;;){
+		KEYDBNC_Process();
+		EVNT_HandleEvent(APP_EventHandler, TRUE);
+		vTaskDelayUntil(&xLastWakeTime, 50/portTICK_PERIOD_MS);
+	}
+}
+
 void APP_Start(void) {
 #if PL_CONFIG_HAS_RTOS
 #if configUSE_TRACE_HOOKS /* FreeRTOS using Percepio Trace */
@@ -177,6 +201,9 @@ void APP_Start(void) {
 #endif
   APP_AdoptToHardware();
 #if PL_CONFIG_HAS_RTOS
+  BaseType_t res;
+    xTaskHandle taskHndl;
+    res = xTaskCreate(App_HandleEvents, "EvntHandler", configMINIMAL_STACK_SIZE+50, (void*) NULL, tskIDLE_PRIORITY+2, &taskHndl);
   vTaskStartScheduler(); /* start the RTOS, create the IDLE task and run my tasks (if any) */
   /* does usually not return! */
 #else

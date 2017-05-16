@@ -260,7 +260,7 @@ uint16_t REF_GetLineValue(void) {
   return refCenterLineVal;
 }
 
-#if PL_CONFIG_HAS_LINE_FOLLOW
+#if 1||PL_CONFIG_HAS_LINE_FOLLOW
 static REF_LineKind ReadLineKind(SensorTimeType val[REF_NOF_SENSORS]) {
   uint32_t sum, sumLeft, sumRight, outerLeft, outerRight;
   int i;
@@ -326,7 +326,7 @@ static REF_LineKind ReadLineKind(SensorTimeType val[REF_NOF_SENSORS]) {
 }
 #endif
 
-#if PL_CONFIG_HAS_LINE_FOLLOW
+#if 1||PL_CONFIG_HAS_LINE_FOLLOW
 static REF_LineKind refLineKind = REF_LINE_NONE;
 
 REF_LineKind REF_GetLineKind(void) {
@@ -337,7 +337,7 @@ REF_LineKind REF_GetLineKind(void) {
 static void REF_Measure(void) {
   ReadCalibrated(SensorCalibrated, SensorRaw);
   refCenterLineVal = ReadLine(SensorCalibrated, SensorRaw, REF_USE_WHITE_LINE);
-#if PL_CONFIG_HAS_LINE_FOLLOW
+#if 1||PL_CONFIG_HAS_LINE_FOLLOW
   refLineKind = ReadLineKind(SensorCalibrated);
 #endif
 }
@@ -365,7 +365,7 @@ static unsigned char*REF_GetStateString(void) {
   return (unsigned char*)"UNKNOWN";
 }
 
-#if PL_CONFIG_HAS_LINE_FOLLOW
+#if 1||PL_CONFIG_HAS_LINE_FOLLOW
 static unsigned char *REF_LineKindStr(REF_LineKind line) {
   switch(line) {
   case REF_LINE_NONE:
@@ -450,7 +450,7 @@ static uint8_t PrintStatus(const CLS1_StdIOType *io) {
   CLS1_SendStr(buf, io->stdOut);
   CLS1_SendStr((unsigned char*)"\r\n", io->stdOut);
 
-#if PL_CONFIG_HAS_LINE_FOLLOW
+#if 1||PL_CONFIG_HAS_LINE_FOLLOW
   CLS1_SendStatusStr((unsigned char*)"  line kind", REF_LineKindStr(refLineKind), io->stdOut);
   CLS1_SendStr((unsigned char*)"\r\n", io->stdOut);
 #endif

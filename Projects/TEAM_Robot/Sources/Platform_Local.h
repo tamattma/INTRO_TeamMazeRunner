@@ -13,6 +13,7 @@
 
 /* board identification: */
 #define PL_LOCAL_CONFIG_BOARD_IS_ROBO     (1) /* I'm the ROBOT board */
+#define PL_CONFIG_HAS_SNAKE_GAME		  (0)	/* snake game */
 
 /* platform hardware configuration */
 #define PL_LOCAL_CONFIG_NOF_LEDS          (2) /* number of LEDs, 0 to 3 */
