@@ -145,7 +145,7 @@ static void REF_MeasureRaw(SensorTimeType raw[REF_NOF_SENSORS]) {
   RefCnt_TValueType timerVal;
   /*! \todo Consider reentrancy and mutual exclusion! */
 #if 1 /*! \todo added timout */
-  #define REF_SENSOR_TIMEOUT_US  1500
+  #define REF_SENSOR_TIMEOUT_US  2500
   const RefCnt_TValueType timeoutCntVal = ((RefCnt_CNT_INP_FREQ_U_0/1000)*REF_SENSOR_TIMEOUT_US)/1000 /* REF_SENSOR_TIMEOUT_US translated into timeout ticks */;
   bool isTimeout = FALSE;
 #endif
