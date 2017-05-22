@@ -109,7 +109,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  while(REF_GetLineKind()!=REF_LINE_FULL){
 		  vTaskDelay(50/portTICK_PERIOD_MS);
 	  }
-	  DRV_SetSpeed(0, 0);
+	  DRV_Stop(50);
 	  TURN_Turn(TURN_RIGHT180, NULL);
   	  break;
 
