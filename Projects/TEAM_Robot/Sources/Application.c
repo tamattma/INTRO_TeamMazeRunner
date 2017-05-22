@@ -99,6 +99,7 @@ void APP_EventHandler(EVNT_Handle event) {
   case EVNT_SW1_PRESSED:
 	  BUZ_PlayTune(BUZ_TUNE_BUTTON);
 	  CLS1_SendStr("Key pressed \n", CLS1_GetStdio()->stdOut);
+	  REF_CalibrateStartStop();
 	  break;
 
   case EVNT_SW1_LPRESSED:
@@ -106,7 +107,7 @@ void APP_EventHandler(EVNT_Handle event) {
   	  CLS1_SendStr("Key long pressed \n", CLS1_GetStdio()->stdOut);
   	  DRV_SetSpeed(100, 100);
   	  DRV_SetMode(DRV_MODE_SPEED);
-	  while(REF_GetLineKind()!=REF_LINE_FULL){
+	  while(REF_GetLineKind()==REF_LINE_FULL){
 		  vTaskDelay(50/portTICK_PERIOD_MS);
 	  }
 	  DRV_Stop(50);
