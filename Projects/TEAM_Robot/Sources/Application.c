@@ -44,6 +44,7 @@
 #endif
 #include "Drive.h"
 #include "Reflectance.h"
+#include "Turn.h"
 
 #if PL_CONFIG_HAS_EVENTS
 void APP_EventHandler(EVNT_Handle event) {
@@ -108,8 +109,8 @@ void APP_EventHandler(EVNT_Handle event) {
 	  while(REF_GetLineKind()!=REF_LINE_FULL){
 		  vTaskDelay(50/portTICK_PERIOD_MS);
 	  }
-	  DRV_SetMode(DRV_MODE_STOP);
 	  DRV_SetSpeed(0, 0);
+	  TURN_Turn(TURN_RIGHT180, NULL);
   	  break;
 
 
