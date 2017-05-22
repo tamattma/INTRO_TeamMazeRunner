@@ -34,7 +34,13 @@
 		<link>
 			<name>Sources/TEAM_Common</name>
 			<type>2</type>
-			<location>C:/Users/Caro/Documents/GitHub/INTRO_TeamMazeRunner/Projects/TEAM_Common</location>
+			<locationURI>PARENT-1-PROJECT_LOC/TEAM_Common</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>COMMON</name>
+			<value>file:/C:/Users/Remo/Documents/INTRO/Git/Team/INTRO_TeamMazeRunner/Projects/TEAM_Common</value>
+		</variable>
+	</variableList>
 </projectDescription>
