@@ -21,7 +21,7 @@ typedef enum {
   DIST_SENSOR_RIGHT
 } DIST_Sensor;
 
-int16_t DIST_GetDistance(DIST_Sensor sensor);
+int16_t DIST_GetDistance(DIST_Sensor sensor); // gibt Distanz in mm des Sensors zurück
 
 #if PL_HAS_SIDE_DISTANCE
 bool DIST_5cmLeftOn(void);
@@ -43,11 +43,11 @@ uint8_t DIST_GetSensorBitsMiddle(void);
 uint8_t DIST_GetSensorBitsRight(void);
 #endif
 
-uint8_t DIST_SpeedIntoObstacle(int speedL, int speedR);
+uint8_t DIST_SpeedIntoObstacle(int speedL, int speedR); // fährt nicht, gibt nur zurück ob etwas in einer Richtung liegt
 uint8_t DIST_MotorDrivingIntoObstacle(void);
-uint8_t DIST_CheckSurrounding(void);
-bool DIST_DriveToCenter(void);
-bool DIST_NearFrontObstacle(int16_t distance);
+uint8_t DIST_CheckSurrounding(void); // gibt zurück wo etwas steht
+bool DIST_DriveToCenter(void);	// fährt nicht
+bool DIST_NearFrontObstacle(int16_t distance); // Distanz in mm
 bool DIST_NearRearObstacle(int distance);
 bool DIST_NearLeftObstacle(int distance);
 bool DIST_NearRightObstacle(int distance);
