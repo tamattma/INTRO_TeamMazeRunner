@@ -27,11 +27,11 @@ void SUMO_StateMachine (void) {
 
 	break;
 
-	case SUMO_DUMMY_DRIVE:
+	case SUMO_DUMMY_DRIVE:	// drive with middle speed until line reached
 
 	break;
 
-	case SUMO_DUMMY_TURN:
+	case SUMO_DUMMY_TURN:	// turn
 
 	break;
 
