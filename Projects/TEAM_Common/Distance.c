@@ -321,16 +321,16 @@ uint8_t DIST_CheckSurrounding(void) {
 
 #if PL_HAS_TOF_SENSOR
   if (DIST_NearFrontObstacle(60)) {
-    walls |= (1<<DIST_TOF_FRONT);
+    walls |= (1<<DIST_TOF_FRONT); //0b0001
   }
   if (DIST_NearRearObstacle(40)) {
-    walls |= (1<<DIST_TOF_REAR);
+    walls |= (1<<DIST_TOF_REAR); //0b0010
   }
   if (DIST_NearLeftObstacle(50)) {
-    walls |= (1<<DIST_TOF_LEFT);
+    walls |= (1<<DIST_TOF_LEFT); //0b0100
   }
   if (DIST_NearRightObstacle(50)) {
-    walls |= (1<<DIST_TOF_RIGHT);
+    walls |= (1<<DIST_TOF_RIGHT); //0b1000
   }
 #endif
   return walls;
@@ -644,7 +644,7 @@ static void TofTask(void *param) {
       }
       ToFDevice[i].mm = range;
     } /* for */
-    vTaskDelay(pdMS_TO_TICKS(50));
+    vTaskDelay(pdMS_TO_TICKS(10));
   }
 }
 #endif /* PL_HAS_TOF_SENSOR */

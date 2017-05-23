@@ -24,9 +24,14 @@
 #if PL_CONFIG_HAS_TURN
   #include "Turn.h"
 #endif
+#if PL_HAS_DISTANCE_SENSOR
+  #include "Distance.h"
+#endif
 
 SUMO_States state;
 SUMO_Strategy strategy;
+uint8_t wall;
+int32_t MAX_SPEED = 10000; // muss noch abgeklärt werden
 
 void SUMO_StateMachine (void) {
 	switch(state) {
@@ -92,9 +97,9 @@ void SUMO_StateMachine (void) {
 
 	case SUMO_VOLLGAS_FORWARD:	// drive with full speed until line reached
 		DRV_SetMode(DRV_MODE_SPEED);
-		DRV_SetSpeed(10000, 10000);
+		DRV_SetSpeed(MAX_SPEED, MAX_SPEED);
 		while(REF_GetLineKind()==REF_LINE_FULL){
-			taskYIELD();
+			vTaskDelay(5/portTICK_PERIOD_MS);
 		}
 		DRV_Stop(50/portTICK_PERIOD_MS);
 		state = SUMO_VOLLGAS_LINE;
@@ -106,23 +111,68 @@ void SUMO_StateMachine (void) {
 	break;
 
 	case SUMO_VOLLGAS_SEARCH:	// search enemy
-
+		wall = DIST_CheckSurrounding();
+		if (wall == 0) {
+			TURN_TurnAngle(10, NULL); // etwas drehen
+		} else {	// Objekt gesichtet, aber wo?
+			if (wall < 2) {			// Front
+				state = SUMO_VOLLGAS_FORWARD;
+			} else if (wall < 3) {	// Rear
+				TURN_TurnAngle(160, NULL);
+			} else if (wall < 5) {	// Left
+				TURN_TurnAngle(-100, NULL);
+			} else if (wall < 9) {	// Right
+				TURN_TurnAngle(80, NULL);
+			}
+		}
 	break;
 
 	case SUMO_TRAP_SEARCH:	// search enemy on left or right sensor
-
+		wall = DIST_CheckSurrounding();
+		if (wall == 0) {
+			TURN_TurnAngle(10, NULL); // etwas drehen
+		} else {	// Objekt gesichtet, aber wo?
+			if (wall < 2) {			// Front
+				TURN_TurnAngle(-100, NULL);
+			} else if (wall < 3) {	// Rear
+				TURN_TurnAngle(80, NULL);
+			} else if (wall < 5) {	// Left
+				TURN_TurnAngle(170, NULL);
+			} else if (wall < 9) {	// Right
+				state = SUMO_TRAP_WAIT;
+			}
+		}
 	break;
 
 	case SUMO_TRAP_WAIT:	// wait until enemy is near
-
+		while(!DIST_NearRightObstacle(150)){
+			vTaskDelay(5/portTICK_PERIOD_MS);
+		}
+		DRV_SetSpeed(-MAX_SPEED, -MAX_SPEED);
+		state = SUMO_TRAP_BACK;
 	break;
 
 	case SUMO_TRAP_BACK:	// step back and wait for enemy to drive in front
-
+		DRV_Stop(50/portTICK_PERIOD_MS);
+		while(!DIST_NearFrontObstacle(50)) {
+			vTaskDelay(20/portTICK_PERIOD_MS);
+		}
 	break;
 
 	case SUMO_TRAP_FORWARD:	// drive forward
-
+		DRV_SetMode(DRV_MODE_SPEED);
+		DRV_SetSpeed(MAX_SPEED, MAX_SPEED);
+		while(REF_GetLineKind()==REF_LINE_FULL){
+			vTaskDelay(5/portTICK_PERIOD_MS);
+		}
+		DRV_Stop(50/portTICK_PERIOD_MS);
+		if(strategy == SUMO_TRAP) {
+			state = SUMO_TRAP_SEARCH;
+		} else if (strategy == SUMO_MIXED) {
+			state = SUMO_VOLLGAS_LINE;
+		} else {
+			state = SUMO_DUMMY_TURN;
+		}
 	break;
 
 	default:
