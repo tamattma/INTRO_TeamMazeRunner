@@ -9,6 +9,21 @@
 #include "Platform.h" /* interface to the platform */
 
 #include "Sumo.h"    /* our own interface */
+#if PL_CONFIG_HAS_RTOS
+  #include "FRTOS1.h"
+#endif
+#if PL_CONFIG_HAS_BUZZER
+  #include "Buzzer.h"
+#endif
+#if PL_CONFIG_HAS_REFLECTANCE
+  #include "Reflectance.h"
+#endif
+#if PL_CONFIG_HAS_DRIVE
+  #include "Drive.h"
+#endif
+#if PL_CONFIG_HAS_TURN
+  #include "Turn.h"
+#endif
 
 SUMO_States state;
 SUMO_Strategy strategy;
@@ -24,7 +39,7 @@ void SUMO_StateMachine (void) {
 	break;
 
 	case SUMO_WAIT_5s:	// wait and beep for 5s
-
+		BUZ_Beep(400, 100);
 	break;
 
 	case SUMO_DUMMY_DRIVE:	// drive with middle speed until line reached
