@@ -39,23 +39,70 @@ void SUMO_StateMachine (void) {
 	break;
 
 	case SUMO_WAIT_5s:	// wait and beep for 5s
-		BUZ_Beep(400, 100);
+		BUZ_Beep(196, 100);
+		vTaskDelay(999/portTICK_PERIOD_MS);
+		BUZ_Beep(196, 100);
+		vTaskDelay(999/portTICK_PERIOD_MS);
+		BUZ_Beep(196, 100);
+		vTaskDelay(999/portTICK_PERIOD_MS);
+		BUZ_Beep(262, 100);
+		vTaskDelay(499/portTICK_PERIOD_MS);
+		BUZ_Beep(262, 100);
+		vTaskDelay(499/portTICK_PERIOD_MS);
+		BUZ_Beep(392, 1000);
+		vTaskDelay(999/portTICK_PERIOD_MS);
+
+		switch (strategy) {
+		case SUMO_DUMMY:
+			state = SUMO_DUMMY_DRIVE;
+			break;
+
+		case SUMO_VOLLGAS:
+			state = SUMO_VOLLGAS_FORWARD;
+			break;
+
+		case SUMO_TRAP:
+			state = SUMO_TRAP_SEARCH;
+			break;
+
+		case SUMO_MIXED:
+			state = SUMO_TRAP_SEARCH;
+			break;
+
+		default:
+			state = SUMO_DUMMY_DRIVE;
+			break;
+		}
 	break;
 
 	case SUMO_DUMMY_DRIVE:	// drive with middle speed until line reached
-
+		DRV_SetMode(DRV_MODE_SPEED);
+		DRV_SetSpeed(1000, 1000);
+		while(REF_GetLineKind()==REF_LINE_FULL){
+			vTaskDelay(50/portTICK_PERIOD_MS);
+		}
+		DRV_Stop(50/portTICK_PERIOD_MS); // or TURN_Turn(TURN_STEP_BORDER_BW);
+		state = SUMO_DUMMY_TURN;
 	break;
 
 	case SUMO_DUMMY_TURN:	// turn
-
+		TURN_TurnAngle(120, NULL);
+		state = SUMO_DUMMY_DRIVE;
 	break;
 
 	case SUMO_VOLLGAS_FORWARD:	// drive with full speed until line reached
-
+		DRV_SetMode(DRV_MODE_SPEED);
+		DRV_SetSpeed(10000, 10000);
+		while(REF_GetLineKind()==REF_LINE_FULL){
+			taskYIELD();
+		}
+		DRV_Stop(50/portTICK_PERIOD_MS);
+		state = SUMO_VOLLGAS_LINE;
 	break;
 
 	case SUMO_VOLLGAS_LINE:		// reached line and step back
-
+		TURN_Turn(TURN_STEP_BORDER_BW); // drive backward for some time
+		state = SUMO_VOLLGAS_SEARCH;
 	break;
 
 	case SUMO_VOLLGAS_SEARCH:	// search enemy
@@ -86,9 +133,10 @@ void SUMO_StateMachine (void) {
 
 static void SumoTask (void *pvParameters) {
   (void)pvParameters; /* not used */
+  TickType_t xLastWakeTime = xTaskGetTickCount();
   for(;;) {
     SUMO_StateMachine();
-    FRTOS1_vTaskDelay(20/portTICK_PERIOD_MS);
+    vTaskDelayUntil(&xLastWakeTime, 20/portTICK_PERIOD_MS);
   }
 }
 
