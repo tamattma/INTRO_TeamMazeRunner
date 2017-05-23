@@ -21,7 +21,7 @@
 //#include "RApp.h"
 #include "LCDMenu.h"
 /*! \todo Add additional includes as needed */
-#include "Snake.h"
+//#include "Snake.h"
 /* status variables */
 static bool LedBackLightisOn = TRUE;
 static bool remoteModeIsOn = FALSE;
@@ -101,16 +101,16 @@ static const LCDMenu_MenuItem menus[] =
 	{LCD_MENU_ID_SNAKE,						0,	1,	LCD_MENU_ID_NONE,		LCD_MENU_ID_NONE,				"Snake",		SnakeMenuHandler,			LCDMENU_MENU_FLAGS_NONE},
 #endif
 };
-/*
+
 uint8_t LCD_HandleRemoteRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *data, RNWK_ShortAddrType srcAddr, bool *handled, RPHY_PacketDesc *packet) {
   (void)size;
   (void)packet;
   switch(type) {
      default:
       break;
-  } /* switch
+  } /* switch */
   return ERR_OK;
-}*/
+}
 #endif /* PL_CONFIG_HAS_LCD_MENU */
 
 
