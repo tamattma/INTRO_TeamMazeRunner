@@ -93,6 +93,11 @@
 #define SHELL_CONFIG_HAS_SHELL_RTT   (1) /* use SEGGER RTT */
 #define SHELL_CONFIG_HAS_SHELL_CDC   (1 && PL_CONFIG_HAS_USB_CDC) /* use USB CDC */
 
+#if RNET_CONFIG_REMOTE_STDIO
+	static unsigned char radio_cmd_buf[48];
+	CLS1_ConstStdIOTypePtr ioRemote;
+#endif
+
 #if SHELL_CONFIG_HAS_EXTRA_UART
  /* ******************************************************************
   * UART Standard I/O
@@ -204,6 +209,9 @@ static const SHELL_IODesc ios[] =
     {&RTT1_stdio, RTT1_DefaultShellBuffer, sizeof(RTT1_DefaultShellBuffer)},
 #endif
     /*! \todo Extend as needed */
+#if PL_CONFIG_HAS_RADIO
+	{&RSTDIO_stdio, RSTDIO_DefaultShellBuffer, sizeof(RSTDIO_DefaultShellBuffer)}
+#endif
 };
 
 /* forward declaration */
@@ -373,6 +381,13 @@ static void ShellTask(void *pvParameters) {
     	CLS1_SendStr(msg,SHELL_stdio.stdOut);
     	vPortFree(msg);
     }
+	#if RNET_CONFIG_REMOTE_STDIO
+		/* dispatch incoming messages
+		and send them to local standard I/O */
+		RSTDIO_Print(&SHELL_stdio);
+		(void)CLS1_ReadAndParseWithCommandTable(radio_cmd_buf,
+		sizeof(radio_cmd_buf), ioRemote, CmdParserTable);
+	#endif
     vTaskDelay(pdMS_TO_TICKS(10));
   } /* for */
 }
@@ -384,6 +399,12 @@ void SHELL_Init(void) {
 #if !CLS1_DEFAULT_SERIAL && PL_CONFIG_CONFIG_HAS_BLUETOOTH
   (void)CLS1_SetStdio(&BT_stdio); /* use the Bluetooth stdio as default */
 #endif
+
+#if RNET_CONFIG_REMOTE_STDIO
+  radio_cmd_buf[0] = '\0';
+  ioRemote = RSTDIO_GetStdio();
+#endif
+
 #if PL_CONFIG_HAS_RTOS
   if (FRTOS1_xTaskCreate(ShellTask, "Shell", configMINIMAL_STACK_SIZE+100, NULL, tskIDLE_PRIORITY+1, NULL) != pdPASS) {
     for(;;){} /* error */
