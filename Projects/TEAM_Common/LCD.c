@@ -18,10 +18,11 @@
 #include "LCD_LED.h"
 #include "Event.h"
 #include "FRTOS1.h"
-//#include "RApp.h"
+#include "RApp.h"
 #include "LCDMenu.h"
 /*! \todo Add additional includes as needed */
 //#include "Snake.h"
+#include "RNet_App.h"
 /* status variables */
 static bool LedBackLightisOn = TRUE;
 static bool remoteModeIsOn = FALSE;
@@ -38,7 +39,17 @@ typedef enum {
 } LCD_MenuIDs;
 
 static LCDMenu_StatusFlags DriveMenuHandler(const struct LCDMenu_MenuItem_ *item, LCDMenu_EventType event, void **dataP){
-
+	LCDMenu_StatusFlags flags = LCDMENU_STATUS_FLAGS_NONE;
+	(void)item;
+	  if (event==LCDMENU_EVENT_ENTER) {
+	    //Send command
+		  RNETA_SendSignal(66);
+	    flags |= LCDMENU_STATUS_FLAGS_HANDLED|LCDMENU_STATUS_FLAGS_UPDATE_VIEW;
+	  } else {
+		//
+	    flags |= LCDMENU_STATUS_FLAGS_HANDLED|LCDMENU_STATUS_FLAGS_UPDATE_VIEW;
+	  }
+	  return flags;
 }
 
 static LCDMenu_StatusFlags ValueChangeHandler(const struct LCDMenu_MenuItem_ *item, LCDMenu_EventType event, void **dataP) {
@@ -102,7 +113,7 @@ static const LCDMenu_MenuItem menus[] =
     {LCD_MENU_ID_MAIN,                      0,  0,  LCD_MENU_ID_NONE,       LCD_MENU_ID_BACKLIGHT,          "General",      NULL,                       LCDMENU_MENU_FLAGS_NONE},
       {LCD_MENU_ID_BACKLIGHT,               1,  0,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               NULL,           BackLightMenuHandler,       LCDMENU_MENU_FLAGS_NONE},
       {LCD_MENU_ID_NUM_VALUE,               1,  1,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               NULL,           ValueChangeHandler,         LCDMENU_MENU_FLAGS_EDITABLE},
-      {LCD_MENU_ID_DRIVE,              		1,  2,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               "Remote Drive", DriveMenuHandler,         LCDMENU_MENU_FLAGS_EDITABLE},
+      {LCD_MENU_ID_DRIVE,              		1,  2,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               "Remote Drive", DriveMenuHandler,           LCDMENU_MENU_FLAGS_NONE},
 	  #if PL_CONFIG_HAS_SNAKE_GAME
 	{LCD_MENU_ID_SNAKE,						0,	1,	LCD_MENU_ID_NONE,		LCD_MENU_ID_NONE,				"Snake",		SnakeMenuHandler,			LCDMENU_MENU_FLAGS_NONE},
 #endif
