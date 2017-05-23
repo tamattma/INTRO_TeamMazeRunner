@@ -33,8 +33,13 @@ typedef enum {
   LCD_MENU_ID_MAIN,
     LCD_MENU_ID_BACKLIGHT,
     LCD_MENU_ID_NUM_VALUE,
-  LCD_MENU_ID_SNAKE,
+  //LCD_MENU_ID_SNAKE,
+	LCD_MENU_ID_DRIVE
 } LCD_MenuIDs;
+
+static LCDMenu_StatusFlags DriveMenuHandler(const struct LCDMenu_MenuItem_ *item, LCDMenu_EventType event, void **dataP){
+
+}
 
 static LCDMenu_StatusFlags ValueChangeHandler(const struct LCDMenu_MenuItem_ *item, LCDMenu_EventType event, void **dataP) {
   static int value = 0;
@@ -97,7 +102,8 @@ static const LCDMenu_MenuItem menus[] =
     {LCD_MENU_ID_MAIN,                      0,  0,  LCD_MENU_ID_NONE,       LCD_MENU_ID_BACKLIGHT,          "General",      NULL,                       LCDMENU_MENU_FLAGS_NONE},
       {LCD_MENU_ID_BACKLIGHT,               1,  0,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               NULL,           BackLightMenuHandler,       LCDMENU_MENU_FLAGS_NONE},
       {LCD_MENU_ID_NUM_VALUE,               1,  1,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               NULL,           ValueChangeHandler,         LCDMENU_MENU_FLAGS_EDITABLE},
-#if PL_CONFIG_HAS_SNAKE_GAME
+      {LCD_MENU_ID_DRIVE,              		1,  2,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               "Remote Drive", DriveMenuHandler,         LCDMENU_MENU_FLAGS_EDITABLE},
+	  #if PL_CONFIG_HAS_SNAKE_GAME
 	{LCD_MENU_ID_SNAKE,						0,	1,	LCD_MENU_ID_NONE,		LCD_MENU_ID_NONE,				"Snake",		SnakeMenuHandler,			LCDMENU_MENU_FLAGS_NONE},
 #endif
 };
