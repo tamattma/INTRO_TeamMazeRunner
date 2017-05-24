@@ -106,7 +106,7 @@ void SUMO_StateMachine (void) {
 	break;
 
 	case SUMO_VOLLGAS_LINE:		// reached line and step back
-		TURN_Turn(TURN_STEP_BORDER_BW); // drive backward for some time
+		TURN_Turn(TURN_STEP_BORDER_BW, NULL); // drive backward for some time
 		state = SUMO_VOLLGAS_SEARCH;
 	break;
 
