@@ -35,22 +35,115 @@ typedef enum {
     LCD_MENU_ID_BACKLIGHT,
     LCD_MENU_ID_NUM_VALUE,
   //LCD_MENU_ID_SNAKE,
-	LCD_MENU_ID_DRIVE
+  LCD_MENU_ID_ROBOT,
+  	  LCD_MENU_ID_SUMO_START_STOP,
+	  LCD_MENU_ID_BATTERY_VOLTAGE,
+	  LCD_MENU_ID_MINT_TOF_SENSOR,
 } LCD_MenuIDs;
 
-static LCDMenu_StatusFlags DriveMenuHandler(const struct LCDMenu_MenuItem_ *item, LCDMenu_EventType event, void **dataP){
-	LCDMenu_StatusFlags flags = LCDMENU_STATUS_FLAGS_NONE;
-	(void)item;
-	  if (event==LCDMENU_EVENT_ENTER) {
-	    //Send command
-		  RNETA_SendSignal(66);
-	    flags |= LCDMENU_STATUS_FLAGS_HANDLED|LCDMENU_STATUS_FLAGS_UPDATE_VIEW;
-	  } else {
-		//
-	    flags |= LCDMENU_STATUS_FLAGS_HANDLED|LCDMENU_STATUS_FLAGS_UPDATE_VIEW;
-	  }
-	  return flags;
+static struct {
+  struct {
+    bool dataValid;
+    bool isRunning;
+    uint8_t str[sizeof("???????????")+1]; /* used to store menu string, either "Start" or "Stop" */
+  } sumo;
+  struct {
+    bool dataValid;
+    uint8_t mm[4]; /* ToF Sensor Values */
+    uint8_t str[sizeof("D:??:??:??:??")+1]; /* used to store menu string */
+  } tof;
+  struct {
+    bool dataValid;
+    uint16_t centiV;
+    uint8_t str[sizeof("Batt: ?.??V")+1]; /* used to store menu string */
+  } battVoltage;
+} remoteValues;
+
+#if PL_CONFIG_HAS_RADIO
+static LCDMenu_StatusFlags RobotRemoteMenuHandler(const struct LCDMenu_MenuItem_ *item, LCDMenu_EventType event, void **dataP) {
+  LCDMenu_StatusFlags flags = LCDMENU_STATUS_FLAGS_NONE;
+
+  if (event==LCDMENU_EVENT_GET_TEXT && dataP!=NULL) {
+    if (item->id==LCD_MENU_ID_MINT_TOF_SENSOR) {
+      unsigned int i;
+
+      UTIL1_strcpy(remoteValues.tof.str, sizeof(remoteValues.tof.str), (uint8_t*)"D:");
+      for(i=0;i<sizeof(remoteValues.tof.mm);i++) {
+        if (remoteValues.tof.dataValid) {
+          UTIL1_strcatNum8Hex(remoteValues.tof.str, sizeof(remoteValues.tof.str), remoteValues.tof.mm[i]);
+        } else {
+          UTIL1_strcat(remoteValues.tof.str, sizeof(remoteValues.tof.str), (uint8_t*)"??");
+        }
+        if (i<sizeof(remoteValues.tof.mm)-1) {
+          UTIL1_chcat(remoteValues.tof.str, sizeof(remoteValues.tof.str), ':');
+        }
+        *dataP = remoteValues.tof.str;
+      }
+      flags |= LCDMENU_STATUS_FLAGS_HANDLED|LCDMENU_STATUS_FLAGS_UPDATE_VIEW;
+    } else if (item->id==LCD_MENU_ID_SUMO_START_STOP) {
+      if (remoteValues.sumo.dataValid) { /* have valid data */
+        if (remoteValues.sumo.isRunning) {
+          UTIL1_strcpy(remoteValues.sumo.str, sizeof(remoteValues.sumo.str), (uint8_t*)"Start/Stop");
+        } else {
+          UTIL1_strcpy(remoteValues.sumo.str, sizeof(remoteValues.sumo.str), (uint8_t*)"Start/Stop");
+        }
+      } else { /* request values */
+        (void)RNETA_SendIdValuePairMessage(RAPP_MSG_TYPE_QUERY_VALUE, RAPP_MSG_TYPE_DATA_ID_START_STOP, 0, RNWK_ADDR_BROADCAST, RPHY_PACKET_FLAGS_NONE);
+        /* use ??? for now until we get the response */
+        UTIL1_strcpy(remoteValues.sumo.str, sizeof(remoteValues.sumo.str), (uint8_t*)"Start/Stop?");
+      }
+      *dataP = remoteValues.sumo.str;
+      flags |= LCDMENU_STATUS_FLAGS_HANDLED|LCDMENU_STATUS_FLAGS_UPDATE_VIEW;
+    } else if (item->id==LCD_MENU_ID_BATTERY_VOLTAGE) {
+      UTIL1_strcpy(remoteValues.battVoltage.str, sizeof(remoteValues.battVoltage.str), (uint8_t*)"Batt: ");
+      if (remoteValues.battVoltage.dataValid) { /* use valid data */
+        UTIL1_strcatNum32sDotValue100(remoteValues.battVoltage.str, sizeof(remoteValues.battVoltage.str), remoteValues.battVoltage.centiV);
+      } else { /* request value from robot */
+        (void)RNETA_SendIdValuePairMessage(RAPP_MSG_TYPE_QUERY_VALUE, RAPP_MSG_TYPE_DATA_ID_BATTERY_V, 0, RNWK_ADDR_BROADCAST, RPHY_PACKET_FLAGS_NONE);
+        /* use ??? for now until we get the response */
+        UTIL1_strcat(remoteValues.battVoltage.str, sizeof(remoteValues.battVoltage.str), (uint8_t*)"?.??");
+      }
+      UTIL1_strcat(remoteValues.battVoltage.str, sizeof(remoteValues.battVoltage.str), (uint8_t*)"V");
+      *dataP = remoteValues.battVoltage.str;
+      flags |= LCDMENU_STATUS_FLAGS_HANDLED|LCDMENU_STATUS_FLAGS_UPDATE_VIEW;
+    }
+  } else if (event==LCDMENU_EVENT_ENTER || event==LCDMENU_EVENT_RIGHT) { /* force update */
+    uint16_t dataID = RAPP_MSG_TYPE_DATA_ID_NONE; /* default value, will be overwritten below */
+    uint8_t msgType = 0;
+    uint32_t value = 0;
+
+    switch(item->id) {
+      case LCD_MENU_ID_SUMO_START_STOP:
+        if (event==LCDMENU_EVENT_ENTER) {
+          msgType = RAPP_MSG_TYPE_REQUEST_SET_VALUE;
+          value = 1; /* start/stop */
+        } else {
+          msgType = RAPP_MSG_TYPE_QUERY_VALUE;
+          value = 0; /* don't care */
+        }
+        dataID = RAPP_MSG_TYPE_DATA_ID_START_STOP;
+        break;
+      case LCD_MENU_ID_MINT_TOF_SENSOR:
+        remoteValues.tof.dataValid = FALSE;
+        msgType = RAPP_MSG_TYPE_QUERY_VALUE;
+        dataID = RAPP_MSG_TYPE_DATA_ID_TOF_VALUES;
+        value = 0; /* don't care */
+        break;
+      case LCD_MENU_ID_BATTERY_VOLTAGE:
+        remoteValues.battVoltage.dataValid = FALSE;
+        msgType = RAPP_MSG_TYPE_QUERY_VALUE;
+        dataID = RAPP_MSG_TYPE_DATA_ID_BATTERY_V;
+        value = 0; /* don't care */
+        break;
+    }
+    if (dataID!=RAPP_MSG_TYPE_DATA_ID_NONE) { /* request data */
+      (void)RNETA_SendIdValuePairMessage(msgType, dataID, value, RNWK_ADDR_BROADCAST, RPHY_PACKET_FLAGS_NONE);
+      flags |= LCDMENU_STATUS_FLAGS_HANDLED|LCDMENU_STATUS_FLAGS_UPDATE_VIEW;
+    }
+  }
+  return flags;
 }
+#endif
 
 static LCDMenu_StatusFlags ValueChangeHandler(const struct LCDMenu_MenuItem_ *item, LCDMenu_EventType event, void **dataP) {
   static int value = 0;
@@ -113,17 +206,61 @@ static const LCDMenu_MenuItem menus[] =
     {LCD_MENU_ID_MAIN,                      0,  0,  LCD_MENU_ID_NONE,       LCD_MENU_ID_BACKLIGHT,          "General",      NULL,                       LCDMENU_MENU_FLAGS_NONE},
       {LCD_MENU_ID_BACKLIGHT,               1,  0,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               NULL,           BackLightMenuHandler,       LCDMENU_MENU_FLAGS_NONE},
       {LCD_MENU_ID_NUM_VALUE,               1,  1,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               NULL,           ValueChangeHandler,         LCDMENU_MENU_FLAGS_EDITABLE},
-      {LCD_MENU_ID_DRIVE,              		1,  2,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               "Remote Drive", DriveMenuHandler,           LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_ROBOT,                   0,   1,   LCD_MENU_ID_NONE,         LCD_MENU_ID_SUMO_START_STOP,      "Robot",        NULL,                       LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_SUMO_START_STOP,         2,   0,   LCD_MENU_ID_ROBOT,        LCD_MENU_ID_NONE,                 NULL,           RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_BATTERY_VOLTAGE,         2,   1,   LCD_MENU_ID_ROBOT,        LCD_MENU_ID_NONE,                 NULL,           RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_MINT_TOF_SENSOR,         2,   2,   LCD_MENU_ID_ROBOT,        LCD_MENU_ID_NONE,                 NULL,           RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
 	  #if PL_CONFIG_HAS_SNAKE_GAME
 	{LCD_MENU_ID_SNAKE,						0,	1,	LCD_MENU_ID_NONE,		LCD_MENU_ID_NONE,				"Snake",		SnakeMenuHandler,			LCDMENU_MENU_FLAGS_NONE},
 #endif
 };
 
 uint8_t LCD_HandleRemoteRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *data, RNWK_ShortAddrType srcAddr, bool *handled, RPHY_PacketDesc *packet) {
+  uint16_t msgID;
+  uint32_t msgValue;
+
   (void)size;
   (void)packet;
+  (void)srcAddr;
   switch(type) {
-     default:
+    case RAPP_MSG_TYPE_QUERY_VALUE_RESPONSE: /* receive data value */
+      msgID = UTIL1_GetValue16LE(&data[0]); /* ID in little endian format */
+      if (msgID==RAPP_MSG_TYPE_DATA_ID_TOF_VALUES) {
+        *handled = TRUE;
+        msgValue = UTIL1_GetValue32LE(&data[2]);
+        remoteValues.tof.mm[3] = (msgValue>>24)&0xff;
+        remoteValues.tof.mm[2] = (msgValue>>16)&0xff;
+        remoteValues.tof.mm[1] = (msgValue>>8)&0xff;
+        remoteValues.tof.mm[0] = msgValue&0xff;
+        requestLCDUpdate = TRUE;
+        remoteValues.tof.dataValid = TRUE;
+      } else if (msgID==RAPP_MSG_TYPE_DATA_ID_START_STOP){
+        *handled = TRUE;
+        msgValue = UTIL1_GetValue32LE(&data[2]);
+        remoteValues.sumo.isRunning = msgValue;
+        requestLCDUpdate = TRUE;
+        remoteValues.sumo.dataValid = TRUE;
+      } else if (msgID==RAPP_MSG_TYPE_DATA_ID_BATTERY_V){
+        *handled = TRUE;
+        msgValue = UTIL1_GetValue32LE(&data[2]);
+        remoteValues.battVoltage.centiV = msgValue;
+        requestLCDUpdate = TRUE;
+        remoteValues.battVoltage.dataValid = TRUE;
+      }
+      break;
+
+    case RAPP_MSG_TYPE_NOTIFY_VALUE: /* receive notification value */
+      msgID = UTIL1_GetValue16LE(&data[0]); /* ID in little endian format */
+      if (msgID==RAPP_MSG_TYPE_DATA_ID_START_STOP) {
+        *handled = FALSE;
+        msgValue = UTIL1_GetValue32LE(&data[2]);
+        remoteValues.sumo.isRunning = msgValue; /* 1: running, 0: not running */
+        requestLCDUpdate = TRUE;
+        remoteValues.sumo.dataValid = TRUE;
+      }
+      break;
+
+    default:
       break;
   } /* switch */
   return ERR_OK;
@@ -150,11 +287,6 @@ static void LCD_Task(void *param) {
 				  GDisp1_GetHeight(),
 				  1, GDisp1_COLOR_BLACK);
   GDisp1_UpdateFull();
-  //DrawText();
-  /* \todo extend */
-  //DrawFont();
-  //DrawLines(); /*! \todo */
-  //DrawCircles();
 #endif
 #if PL_CONFIG_HAS_LCD_MENU
   LCDMenu_InitMenu(menus, sizeof(menus)/sizeof(menus[0]), 1);

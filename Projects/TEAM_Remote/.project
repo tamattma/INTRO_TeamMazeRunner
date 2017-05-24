@@ -42,5 +42,9 @@
 			<name>COMMON</name>
 			<value>file:/C:/Users/Remo/Documents/INTRO/Git/Team/INTRO_TeamMazeRunner/Projects/TEAM_Common</value>
 		</variable>
+		<variable>
+			<name>GENERATED</name>
+			<value>file:/C:/Users/Remo/Documents/INTRO/Git/Team/INTRO_TeamMazeRunner/Projects/TEAM_Remote/Generated_Code</value>
+		</variable>
 	</variableList>
 </projectDescription>
