@@ -168,6 +168,11 @@ static uint8_t HandleDataRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *da
       CLS1_SendStr(buf, io->stdOut);
 #endif /* PL_HAS_SHELL */      
       return ERR_OK;
+    case RAPP_MSG_TYPE_STDOUT:
+    	*handled = TRUE;
+    	val = *data;
+
+    	break;
     default: /*! \todo Handle your own messages here */
       break;
   } /* switch */

@@ -44,6 +44,17 @@ void SUMO_Deinit(void);
  */
 void SUMO_Init(void);
 
+/*!
+ * brief Called for Start Signal
+ * param SUMO_Strategy to be used
+ */
+void SUMO_Start(SUMO_Strategy strat);
+
+/*!
+ * brief Called for Stop Signal
+ * param SUMO_Strategy to be used
+ */
+void SUMO_Stop(void);
 
 
 

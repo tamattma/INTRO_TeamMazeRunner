@@ -190,6 +190,14 @@ static void SumoTask (void *pvParameters) {
   }
 }
 
+void SUMO_Start(SUMO_Strategy strat){
+	state = SUMO_START;
+	strategy = strat;
+}
+
+void SUMO_Stop(){
+	state = SUMO_IDLE;
+}
 
 void SUMO_Deinit(void) {
 

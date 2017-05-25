@@ -49,6 +49,8 @@
   #include "LineFollow.h"
 #endif
 
+#include "Sumo.h"
+
 static bool REMOTE_isOn = FALSE;
 static bool REMOTE_isVerbose = FALSE;
 static bool REMOTE_useJoystick = TRUE;
@@ -324,6 +326,23 @@ uint8_t REMOTE_HandleRemoteRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *
     case RAPP_MSG_TYPE_NOTIFY_VALUE:
       id = UTIL1_GetValue16LE(data); /* extract 16bit ID (little endian) */
       /*! \todo not handled yet */
+      if(id == (RAPP_MSG_DateIDType) RAPP_MSG_TYPE_DATA_ID_START_TRAP){
+    	  *handled = TRUE;
+    	  SUMO_Start(SUMO_TRAP);
+    	  beep=TRUE;
+      }else if(id == (RAPP_MSG_DateIDType) RAPP_MSG_TYPE_DATA_ID_START_VOLLGAS){
+    	  *handled = TRUE;
+    	  SUMO_Start(SUMO_VOLLGAS);
+    	  beep=TRUE;
+      }else if(id == (RAPP_MSG_DateIDType) RAPP_MSG_TYPE_DATA_ID_START_MIXED){
+    	  *handled = TRUE;
+    	  SUMO_Start(SUMO_MIXED);
+    	  beep=TRUE;
+      }else if(id == (RAPP_MSG_DateIDType) RAPP_MSG_TYPE_DATA_ID_STOP){
+    	  *handled = TRUE;
+    	  SUMO_Stop();
+    	  beep=TRUE;
+      }
       break;
 
     default:
