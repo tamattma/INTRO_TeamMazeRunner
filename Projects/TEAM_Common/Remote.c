@@ -329,7 +329,7 @@ uint8_t REMOTE_HandleRemoteRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *
       if(id == (RAPP_MSG_DateIDType) RAPP_MSG_TYPE_DATA_ID_START_TRAP){
     	  *handled = TRUE;
     	 // SUMO_Start(SUMO_TRAP);
-    	  beep=TRUE;
+    	  BUZ_PlayTune(BUZ_TUNE_RX_NOTIFY);
       }else if(id == (RAPP_MSG_DateIDType) RAPP_MSG_TYPE_DATA_ID_START_VOLLGAS){
     	  *handled = TRUE;
     	  //SUMO_Start(SUMO_VOLLGAS);

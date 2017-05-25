@@ -52,6 +52,11 @@ static const BUZ_Tune MelodyButtonLong[] =
     {250,200},
 };
 
+static const BUZ_Tune MelodyRxNotification[] =
+{
+		{500,50},
+};
+
 typedef struct {
   int idx; /* current index */
   int maxIdx; /* maximum index */
@@ -62,6 +67,7 @@ typedef struct {
 static MelodyDesc BUZ_Melodies[] = {
   {0, sizeof(MelodyWelcome)/sizeof(MelodyWelcome[0]),         {0, 0}, MelodyWelcome}, /* BUZ_TUNE_WELCOME */
   {0, sizeof(MelodyButton)/sizeof(MelodyButton[0]),           {0, 0}, MelodyButton}, /* BUZ_TUNE_BUTTON */
+  {0, sizeof(MelodyRxNotification)/sizeof(MelodyRxNotification[0]),   {0, 0}, MelodyRxNotification}, /* BUZ_TUNE_RX_NOTIFY */
   {0, sizeof(MelodyButtonLong)/sizeof(MelodyButtonLong[0]),   {0, 0}, MelodyButtonLong}, /* BUZ_TUNE_BUTTON_LONG */
 };
 

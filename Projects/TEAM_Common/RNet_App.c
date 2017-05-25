@@ -168,9 +168,12 @@ static uint8_t HandleDataRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *da
       CLS1_SendStr(buf, io->stdOut);
 #endif /* PL_HAS_SHELL */      
       return ERR_OK;
-    case RAPP_MSG_TYPE_STDOUT:
+    case RAPP_MSG_TYPE_NOTIFY_VALUE:
     	*handled = TRUE;
     	val = *data;
+    	if(val == RAPP_MSG_TYPE_DATA_ID_START_TRAP){
+    		CLS1_SendStr("RNet_App received notify start trap",io->stdOut);
+    	}
 
     	break;
     default: /*! \todo Handle your own messages here */
