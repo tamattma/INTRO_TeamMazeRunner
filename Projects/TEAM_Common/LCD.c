@@ -37,6 +37,10 @@ typedef enum {
   //LCD_MENU_ID_SNAKE,
   LCD_MENU_ID_ROBOT,
   	  LCD_MENU_ID_SUMO_START_STOP,
+	  	  LCD_MENU_ID_SUMO_STOP,
+	  	  LCD_MENU_ID_SUMO_TRAP,
+		  LCD_MENU_ID_SUMO_VOLLGAS,
+		  LCD_MENU_ID_SUMO_MIXED,
 	  LCD_MENU_ID_BATTERY_VOLTAGE,
 	  LCD_MENU_ID_MINT_TOF_SENSOR,
 } LCD_MenuIDs;
@@ -82,15 +86,15 @@ static LCDMenu_StatusFlags RobotRemoteMenuHandler(const struct LCDMenu_MenuItem_
       flags |= LCDMENU_STATUS_FLAGS_HANDLED|LCDMENU_STATUS_FLAGS_UPDATE_VIEW;
     } else if (item->id==LCD_MENU_ID_SUMO_START_STOP) {
       if (remoteValues.sumo.dataValid) { /* have valid data */
-        if (remoteValues.sumo.isRunning) {
-          UTIL1_strcpy(remoteValues.sumo.str, sizeof(remoteValues.sumo.str), (uint8_t*)"Start/Stop");
-        } else {
-          UTIL1_strcpy(remoteValues.sumo.str, sizeof(remoteValues.sumo.str), (uint8_t*)"Start/Stop");
-        }
+//        if (remoteValues.sumo.isRunning) {
+//          UTIL1_strcpy(remoteValues.sumo.str, sizeof(remoteValues.sumo.str), (uint8_t*)"Start/Stop");
+//        } else {
+//          UTIL1_strcpy(remoteValues.sumo.str, sizeof(remoteValues.sumo.str), (uint8_t*)"Start/Stop");
+//        }
       } else { /* request values */
-        (void)RNETA_SendIdValuePairMessage(RAPP_MSG_TYPE_QUERY_VALUE, RAPP_MSG_TYPE_DATA_ID_START_STOP, 0, RNWK_ADDR_BROADCAST, RPHY_PACKET_FLAGS_NONE);
+//        (void)RNETA_SendIdValuePairMessage(RAPP_MSG_TYPE_QUERY_VALUE, RAPP_MSG_TYPE_DATA_ID_START_STOP, 0, RNWK_ADDR_BROADCAST, RPHY_PACKET_FLAGS_NONE);
         /* use ??? for now until we get the response */
-        UTIL1_strcpy(remoteValues.sumo.str, sizeof(remoteValues.sumo.str), (uint8_t*)"Start/Stop?");
+//        UTIL1_strcpy(remoteValues.sumo.str, sizeof(remoteValues.sumo.str), (uint8_t*)"Start/Stop?");
       }
       *dataP = remoteValues.sumo.str;
       flags |= LCDMENU_STATUS_FLAGS_HANDLED|LCDMENU_STATUS_FLAGS_UPDATE_VIEW;
@@ -114,14 +118,14 @@ static LCDMenu_StatusFlags RobotRemoteMenuHandler(const struct LCDMenu_MenuItem_
 
     switch(item->id) {
       case LCD_MENU_ID_SUMO_START_STOP:
-        if (event==LCDMENU_EVENT_ENTER) {
-          msgType = RAPP_MSG_TYPE_REQUEST_SET_VALUE;
-          value = 1; /* start/stop */
-        } else {
-          msgType = RAPP_MSG_TYPE_QUERY_VALUE;
-          value = 0; /* don't care */
-        }
-        dataID = RAPP_MSG_TYPE_DATA_ID_START_STOP;
+//        if (event==LCDMENU_EVENT_ENTER) {
+//          msgType = RAPP_MSG_TYPE_REQUEST_SET_VALUE;
+//          value = 1; /* start/stop */
+//        } else {
+//          msgType = RAPP_MSG_TYPE_QUERY_VALUE;
+//          value = 0; /* don't care */
+//        }
+//        dataID = RAPP_MSG_TYPE_DATA_ID_START_STOP;
         break;
       case LCD_MENU_ID_MINT_TOF_SENSOR:
         remoteValues.tof.dataValid = FALSE;
@@ -135,6 +139,11 @@ static LCDMenu_StatusFlags RobotRemoteMenuHandler(const struct LCDMenu_MenuItem_
         dataID = RAPP_MSG_TYPE_DATA_ID_BATTERY_V;
         value = 0; /* don't care */
         break;
+      case LCD_MENU_ID_SUMO_TRAP:
+		  msgType = RAPP_MSG_TYPE_NOTIFY_VALUE;
+		  dataID = RAPP_MSG_TYPE_DATA_ID_START_TRAP;
+		  value = 0; /* don't care */
+		  break;
     }
     if (dataID!=RAPP_MSG_TYPE_DATA_ID_NONE) { /* request data */
       (void)RNETA_SendIdValuePairMessage(msgType, dataID, value, RNWK_ADDR_BROADCAST, RPHY_PACKET_FLAGS_NONE);
@@ -203,13 +212,17 @@ static LCDMenu_StatusFlags SnakeMenuHandler(const struct LCDMenu_MenuItem_ *item
 
 static const LCDMenu_MenuItem menus[] =
 {/* id,                                    grp,pos,   up,                       down,                         text,           callback                      flags                  */
-    {LCD_MENU_ID_MAIN,                      0,  0,  LCD_MENU_ID_NONE,       LCD_MENU_ID_BACKLIGHT,          "General",      NULL,                       LCDMENU_MENU_FLAGS_NONE},
-      {LCD_MENU_ID_BACKLIGHT,               1,  0,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               NULL,           BackLightMenuHandler,       LCDMENU_MENU_FLAGS_NONE},
-      {LCD_MENU_ID_NUM_VALUE,               1,  1,  LCD_MENU_ID_MAIN,       LCD_MENU_ID_NONE,               NULL,           ValueChangeHandler,         LCDMENU_MENU_FLAGS_EDITABLE},
-	  {LCD_MENU_ID_ROBOT,                   0,   1,   LCD_MENU_ID_NONE,         LCD_MENU_ID_SUMO_START_STOP,      "Robot",        NULL,                       LCDMENU_MENU_FLAGS_NONE},
-	  {LCD_MENU_ID_SUMO_START_STOP,         2,   0,   LCD_MENU_ID_ROBOT,        LCD_MENU_ID_NONE,                 NULL,           RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
-	  {LCD_MENU_ID_BATTERY_VOLTAGE,         2,   1,   LCD_MENU_ID_ROBOT,        LCD_MENU_ID_NONE,                 NULL,           RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
-	  {LCD_MENU_ID_MINT_TOF_SENSOR,         2,   2,   LCD_MENU_ID_ROBOT,        LCD_MENU_ID_NONE,                 NULL,           RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
+    {LCD_MENU_ID_MAIN,                      0,  0,  LCD_MENU_ID_NONE,       	LCD_MENU_ID_BACKLIGHT,        "General",      NULL,                       LCDMENU_MENU_FLAGS_NONE},
+      {LCD_MENU_ID_BACKLIGHT,               1,  0,  LCD_MENU_ID_MAIN,       	LCD_MENU_ID_NONE,             NULL,           BackLightMenuHandler,       LCDMENU_MENU_FLAGS_NONE},
+      {LCD_MENU_ID_NUM_VALUE,               1,  1,  LCD_MENU_ID_MAIN,       	LCD_MENU_ID_NONE,             NULL,           ValueChangeHandler,         LCDMENU_MENU_FLAGS_EDITABLE},
+	  {LCD_MENU_ID_ROBOT,                   0,  1,  LCD_MENU_ID_NONE,         	LCD_MENU_ID_SUMO_START_STOP,  "Robot",        NULL,                       LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_SUMO_START_STOP,         2,  0,  LCD_MENU_ID_ROBOT,        	LCD_MENU_ID_SUMO_STOP,        "Sumo",         RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_SUMO_STOP,         		3,  0,  LCD_MENU_ID_SUMO_START_STOP,LCD_MENU_ID_NONE,             "STOP!!",       RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_SUMO_TRAP,         		3,  1,  LCD_MENU_ID_SUMO_START_STOP,LCD_MENU_ID_NONE,             "TRAP",         RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_SUMO_VOLLGAS,      		3,  2,  LCD_MENU_ID_SUMO_START_STOP,LCD_MENU_ID_NONE,             "VOLLGAS",      RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_SUMO_MIXED,         		3,  3,  LCD_MENU_ID_SUMO_START_STOP,LCD_MENU_ID_NONE,             "MIXED",        RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_BATTERY_VOLTAGE,         2,  1,  LCD_MENU_ID_ROBOT,        	LCD_MENU_ID_NONE,             NULL,           RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
+	  {LCD_MENU_ID_MINT_TOF_SENSOR,         2,  2,  LCD_MENU_ID_ROBOT,        	LCD_MENU_ID_NONE,             NULL,           RobotRemoteMenuHandler,     LCDMENU_MENU_FLAGS_NONE},
 	  #if PL_CONFIG_HAS_SNAKE_GAME
 	{LCD_MENU_ID_SNAKE,						0,	1,	LCD_MENU_ID_NONE,		LCD_MENU_ID_NONE,				"Snake",		SnakeMenuHandler,			LCDMENU_MENU_FLAGS_NONE},
 #endif
@@ -234,12 +247,12 @@ uint8_t LCD_HandleRemoteRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *dat
         remoteValues.tof.mm[0] = msgValue&0xff;
         requestLCDUpdate = TRUE;
         remoteValues.tof.dataValid = TRUE;
-      } else if (msgID==RAPP_MSG_TYPE_DATA_ID_START_STOP){
-        *handled = TRUE;
-        msgValue = UTIL1_GetValue32LE(&data[2]);
-        remoteValues.sumo.isRunning = msgValue;
-        requestLCDUpdate = TRUE;
-        remoteValues.sumo.dataValid = TRUE;
+//      } else if (msgID==RAPP_MSG_TYPE_DATA_ID_START_STOP){
+//        *handled = TRUE;
+//        msgValue = UTIL1_GetValue32LE(&data[2]);
+//        remoteValues.sumo.isRunning = msgValue;
+//        requestLCDUpdate = TRUE;
+//        remoteValues.sumo.dataValid = TRUE;
       } else if (msgID==RAPP_MSG_TYPE_DATA_ID_BATTERY_V){
         *handled = TRUE;
         msgValue = UTIL1_GetValue32LE(&data[2]);
@@ -251,12 +264,13 @@ uint8_t LCD_HandleRemoteRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *dat
 
     case RAPP_MSG_TYPE_NOTIFY_VALUE: /* receive notification value */
       msgID = UTIL1_GetValue16LE(&data[0]); /* ID in little endian format */
-      if (msgID==RAPP_MSG_TYPE_DATA_ID_START_STOP) {
-        *handled = FALSE;
-        msgValue = UTIL1_GetValue32LE(&data[2]);
-        remoteValues.sumo.isRunning = msgValue; /* 1: running, 0: not running */
-        requestLCDUpdate = TRUE;
-        remoteValues.sumo.dataValid = TRUE;
+      if (msgID==RAPP_MSG_TYPE_DATA_ID_START_TRAP) {
+//        *handled = FALSE;
+//        msgValue = UTIL1_GetValue32LE(&data[2]);
+//        remoteValues.sumo.isRunning = msgValue; /* 1: running, 0: not running */
+//        requestLCDUpdate = TRUE;
+//        remoteValues.sumo.dataValid = TRUE;
+
       }
       break;
 
