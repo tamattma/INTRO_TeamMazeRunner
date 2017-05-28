@@ -191,7 +191,7 @@ static void SumoTask (void *pvParameters) {
 }
 
 void SUMO_Start(SUMO_Strategy strat){
-	state = SUMO_START;
+	state = SUMO_START; //nicht eher SUMO_WAIT_5s?
 	strategy = strat;
 }
 
