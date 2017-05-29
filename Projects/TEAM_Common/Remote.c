@@ -42,14 +42,15 @@
 #if PL_CONFIG_HAS_BATTERY_ADC
   #include "Battery.h"
 #endif
-#if PL_CONFIG_HAS_BUZZER
-  #include "Buzzer.h"
-#endif
+//#if PL_CONFIG_HAS_BUZZER
+  #include "Buzzer.h"			//include to get enum from Buzzer
+//#endif
 #if PL_CONFIG_HAS_LINE_FOLLOW
   #include "LineFollow.h"
 #endif
 
 #include "Sumo.h"
+
 
 static bool REMOTE_isOn = FALSE;
 static bool REMOTE_isVerbose = FALSE;
@@ -329,7 +330,6 @@ uint8_t REMOTE_HandleRemoteRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *
       if(id == (RAPP_MSG_DateIDType) RAPP_MSG_TYPE_DATA_ID_START_TRAP){
     	  *handled = TRUE;
     	 // SUMO_Start(SUMO_TRAP);
-    	  BUZ_PlayTune(BUZ_TUNE_RX_NOTIFY);
       }else if(id == (RAPP_MSG_DateIDType) RAPP_MSG_TYPE_DATA_ID_START_VOLLGAS){
     	  *handled = TRUE;
     	  //SUMO_Start(SUMO_VOLLGAS);

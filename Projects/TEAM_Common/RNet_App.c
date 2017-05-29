@@ -172,7 +172,15 @@ static uint8_t HandleDataRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *da
     	*handled = TRUE;
     	val = *data;
     	if(val == RAPP_MSG_TYPE_DATA_ID_START_TRAP){
-    		CLS1_SendStr("RNet_App received notify start trap",io->stdOut);
+    		CLS1_SendStr("RNet_App received notify start trap \n",io->stdOut);
+    	}else if(val == RAPP_MSG_TYPE_DATA_ID_START_VOLLGAS){
+    		CLS1_SendStr("RNet_App received notify start vollgas \n",io->stdOut);
+    	}else if(val == RAPP_MSG_TYPE_DATA_ID_START_MIXED){
+    		CLS1_SendStr("RNet_App received notify start mixed \n",io->stdOut);
+    	}else if(val == RAPP_MSG_TYPE_DATA_ID_START_DUMMY){
+    		CLS1_SendStr("RNet_App received notify start dummy \n",io->stdOut);
+    	}else if(val == RAPP_MSG_TYPE_DATA_ID_STOP){
+    		CLS1_SendStr("RNet_App received notify stop sumo",io->stdOut);
     	}
 
     	break;

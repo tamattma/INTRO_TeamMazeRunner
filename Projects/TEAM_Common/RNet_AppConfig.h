@@ -38,7 +38,8 @@ typedef enum {
 	  RAPP_MSG_TYPE_DATA_ID_START_TRAP = 9,     /* start robot */
 	  RAPP_MSG_TYPE_DATA_ID_START_VOLLGAS = 10,     /* start robot */
 	  RAPP_MSG_TYPE_DATA_ID_START_MIXED = 11,     /* start robot */
-	  RAPP_MSG_TYPE_DATA_ID_STOP = 12		/* stop robot */
+	  RAPP_MSG_TYPE_DATA_ID_START_DUMMY = 12,		/* start robot */
+	  RAPP_MSG_TYPE_DATA_ID_STOP = 13		/* stop robot */
   /*! \todo extend as needed */
 } RAPP_MSG_DateIDType;
 
