@@ -31,8 +31,12 @@
 SUMO_States state;
 SUMO_Strategy strategy;
 uint8_t wall;
-int32_t MAX_SPEED = 6000; // muss noch abgeklärt werden
+int32_t MAX_SPEED = 2000; // muss noch abgeklärt werden
 bool running;
+
+int32_t driveL;
+int32_t driveR;
+int counter;
 
 bool SUMO_isRunning (void) {
 	return running;
@@ -79,6 +83,7 @@ void SUMO_StateMachine (void) {
 			state = SUMO_DUMMY_DRIVE;
 			break;
 		}
+		DRV_SetMode(DRV_MODE_SPEED);
 	break;
 
 	case SUMO_DUMMY_DRIVE:	// drive with middle speed until line reached
@@ -97,37 +102,52 @@ void SUMO_StateMachine (void) {
 	break;
 
 	case SUMO_VOLLGAS_FORWARD:	// drive with full speed until line reached
+		counter = 0;
 		DRV_SetMode(DRV_MODE_SPEED);
 		DRV_SetSpeed(MAX_SPEED, MAX_SPEED);
-		while(REF_GetLineKind()==REF_LINE_FULL){
-			vTaskDelay(5/portTICK_PERIOD_MS);
-		}
+		do{
+			vTaskDelay(50/portTICK_PERIOD_MS);
+		} while(REF_GetLineKind()==REF_LINE_FULL);
 		TURN_Turn(TURN_STEP_BORDER_BW, NULL); // drive backward for some time
-		state = SUMO_VOLLGAS_LINE;
-	break;
-
-	case SUMO_VOLLGAS_LINE:		// reached line and step back
 		TURN_Turn(TURN_STEP_BORDER_BW, NULL); // drive backward for some time
 		state = SUMO_VOLLGAS_SEARCH;
 	break;
 
 	case SUMO_VOLLGAS_SEARCH:	// search enemy
+		if (DIST_GetDistance(DIST_SENSOR_FRONT)>10) {
+			state = SUMO_VOLLGAS_FORWARD;
+		} else if ((counter % 20)==0) {
+			if (DIST_GetDistance(DIST_SENSOR_RIGHT)>10) {
+				TURN_TurnAngle(80, NULL);
+			} else if (DIST_GetDistance(DIST_SENSOR_LEFT)>10) {
+				TURN_TurnAngle(-100, NULL);
+			} else if (DIST_GetDistance(DIST_SENSOR_REAR)>10) {
+				TURN_TurnAngle(160, NULL);
+			} else {
+				DRV_SetSpeed(800, -800); // drehen
+			}
+		} else {
+			counter++;
+		}
+		//vTaskDelay(1000/portTICK_PERIOD_MS);
+		/**
 		wall = DIST_CheckSurrounding();
 		if (wall == 0) {
 			TURN_TurnAngle(10, NULL); // etwas drehen
+			vTaskDelay(50/portTICK_PERIOD_MS);
 		} else if (wall == 0xf) {
 			state = SUMO_DUMMY_DRIVE; // Fehler
 		} else {	// Objekt gesichtet, aber wo?
-			if (wall < 2) {			// Front
-				state = SUMO_VOLLGAS_FORWARD;
-			} else if (wall < 3) {	// Rear
+			if (wall < 2) {			// Rear
 				TURN_TurnAngle(160, NULL);
-			} else if (wall < 5) {	// Left
-				TURN_TurnAngle(-100, NULL);
-			} else if (wall < 9) {	// Right
+			} else if (wall < 4) {	// Right
 				TURN_TurnAngle(80, NULL);
+			} else if (wall < 8) {	// Front
+				state = SUMO_VOLLGAS_FORWARD;
+			} else if (wall < 16) {	// Left
+				TURN_TurnAngle(-100, NULL);
 			}
-		}
+		}*/
 	break;
 
 	case SUMO_TRAP_SEARCH:	// search enemy on left or right sensor
@@ -197,6 +217,7 @@ void SUMO_Start(SUMO_Strategy strat){
 	strategy = strat;
 	state = SUMO_WAIT_5s;
 	running = TRUE;
+	counter = 0;
 }
 
 void SUMO_Stop(){
