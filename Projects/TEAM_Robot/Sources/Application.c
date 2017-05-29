@@ -102,7 +102,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  if (SUMO_isRunning()) {
 		  SUMO_Stop();
 	  } else {
-		  SUMO_Start(0);
+		  SUMO_Start(1);
 	  }
 	  break;
 

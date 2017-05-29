@@ -31,7 +31,7 @@
 SUMO_States state;
 SUMO_Strategy strategy;
 uint8_t wall;
-int32_t MAX_SPEED = 10000; // muss noch abgeklärt werden
+int32_t MAX_SPEED = 6000; // muss noch abgeklärt werden
 bool running;
 
 bool SUMO_isRunning (void) {
@@ -64,7 +64,7 @@ void SUMO_StateMachine (void) {
 			break;
 
 		case SUMO_VOLLGAS:
-			state = SUMO_VOLLGAS_FORWARD;
+			state = SUMO_VOLLGAS_SEARCH;
 			break;
 
 		case SUMO_TRAP:
@@ -102,7 +102,7 @@ void SUMO_StateMachine (void) {
 		while(REF_GetLineKind()==REF_LINE_FULL){
 			vTaskDelay(5/portTICK_PERIOD_MS);
 		}
-		DRV_Stop(50/portTICK_PERIOD_MS);
+		TURN_Turn(TURN_STEP_BORDER_BW, NULL); // drive backward for some time
 		state = SUMO_VOLLGAS_LINE;
 	break;
 
@@ -115,6 +115,8 @@ void SUMO_StateMachine (void) {
 		wall = DIST_CheckSurrounding();
 		if (wall == 0) {
 			TURN_TurnAngle(10, NULL); // etwas drehen
+		} else if (wall == 0xf) {
+			state = SUMO_DUMMY_DRIVE; // Fehler
 		} else {	// Objekt gesichtet, aber wo?
 			if (wall < 2) {			// Front
 				state = SUMO_VOLLGAS_FORWARD;
