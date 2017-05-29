@@ -41,7 +41,7 @@ bool SUMO_isRunning (void) {
 void SUMO_StateMachine (void) {
 	switch(state) {
 	case SUMO_IDLE:		// wait on start signal
-		DRV_Stop(50/portTICK_PERIOD_MS);
+	//	DRV_Stop(50/portTICK_PERIOD_MS);
 	break;
 
 	case SUMO_WAIT_5s:	// wait and beep for 5s
