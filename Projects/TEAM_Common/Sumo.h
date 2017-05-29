@@ -14,7 +14,6 @@
 
 typedef enum {
 	SUMO_IDLE,
-	SUMO_START,
 	SUMO_WAIT_5s,
 	SUMO_DUMMY_DRIVE,
 	SUMO_DUMMY_TURN,
@@ -33,6 +32,8 @@ typedef enum {
 	SUMO_TRAP,
 	SUMO_MIXED,
 } SUMO_Strategy;
+
+bool SUMO_isRunning (void);
 
 /*!
  * \brief De-Initializes the module.

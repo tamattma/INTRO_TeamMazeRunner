@@ -32,15 +32,16 @@ SUMO_States state;
 SUMO_Strategy strategy;
 uint8_t wall;
 int32_t MAX_SPEED = 10000; // muss noch abgeklärt werden
+bool running;
+
+bool SUMO_isRunning (void) {
+	return running;
+}
 
 void SUMO_StateMachine (void) {
 	switch(state) {
 	case SUMO_IDLE:		// wait on start signal
-
-	break;
-
-	case SUMO_START:	// set strategy
-
+		DRV_Stop(50/portTICK_PERIOD_MS);
 	break;
 
 	case SUMO_WAIT_5s:	// wait and beep for 5s
@@ -191,12 +192,14 @@ static void SumoTask (void *pvParameters) {
 }
 
 void SUMO_Start(SUMO_Strategy strat){
-	state = SUMO_START; //nicht eher SUMO_WAIT_5s?
 	strategy = strat;
+	state = SUMO_WAIT_5s;
+	running = TRUE;
 }
 
 void SUMO_Stop(){
 	state = SUMO_IDLE;
+	running = FALSE;
 }
 
 void SUMO_Deinit(void) {
