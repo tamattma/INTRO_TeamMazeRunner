@@ -155,6 +155,7 @@ void PL_Init(void) {
 #if PL_CONFIG_HAS_BATTERY_ADC
   BATT_Init();
 #endif
+  SUMO_Init();
 }
 
 void PL_Deinit(void) {
@@ -227,4 +228,5 @@ void PL_Deinit(void) {
 #if PL_CONFIG_HAS_LEDS
   LED_Deinit();
 #endif
+  SUMO_Deinit();
 }

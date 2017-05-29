@@ -45,17 +45,17 @@ void SUMO_StateMachine (void) {
 	break;
 
 	case SUMO_WAIT_5s:	// wait and beep for 5s
-		BUZ_Beep(196, 100);
+		BUZ_Beep(392, 100);
 		vTaskDelay(999/portTICK_PERIOD_MS);
-		BUZ_Beep(196, 100);
+		BUZ_Beep(392, 100);
 		vTaskDelay(999/portTICK_PERIOD_MS);
-		BUZ_Beep(196, 100);
+		BUZ_Beep(392, 100);
 		vTaskDelay(999/portTICK_PERIOD_MS);
-		BUZ_Beep(262, 100);
+		BUZ_Beep(523, 100);
 		vTaskDelay(499/portTICK_PERIOD_MS);
-		BUZ_Beep(262, 100);
+		BUZ_Beep(523, 100);
 		vTaskDelay(499/portTICK_PERIOD_MS);
-		BUZ_Beep(392, 1000);
+		BUZ_Beep(784, 1000);
 		vTaskDelay(999/portTICK_PERIOD_MS);
 
 		switch (strategy) {
@@ -84,10 +84,10 @@ void SUMO_StateMachine (void) {
 	case SUMO_DUMMY_DRIVE:	// drive with middle speed until line reached
 		DRV_SetMode(DRV_MODE_SPEED);
 		DRV_SetSpeed(1000, 1000);
-		while(REF_GetLineKind()==REF_LINE_FULL){
+		do{
 			vTaskDelay(50/portTICK_PERIOD_MS);
-		}
-		DRV_Stop(50/portTICK_PERIOD_MS); // or TURN_Turn(TURN_STEP_BORDER_BW);
+		} while(REF_GetLineKind()==REF_LINE_FULL);
+		TURN_Turn(TURN_STEP_BORDER_BW, NULL); // drive backward for some time
 		state = SUMO_DUMMY_TURN;
 	break;
 

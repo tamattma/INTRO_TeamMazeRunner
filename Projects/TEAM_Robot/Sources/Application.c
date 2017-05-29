@@ -99,19 +99,17 @@ void APP_EventHandler(EVNT_Handle event) {
   case EVNT_SW1_PRESSED:
 	  BUZ_PlayTune(BUZ_TUNE_BUTTON);
 	  CLS1_SendStr("Key pressed \n", CLS1_GetStdio()->stdOut);
-	  REF_CalibrateStartStop();
+	  if (SUMO_isRunning()) {
+		  SUMO_Stop();
+	  } else {
+		  SUMO_Start(0);
+	  }
 	  break;
 
   case EVNT_SW1_LPRESSED:
 	  BUZ_PlayTune(BUZ_TUNE_BUTTON_LONG);
   	  CLS1_SendStr("Key long pressed \n", CLS1_GetStdio()->stdOut);
-  	  DRV_SetSpeed(100, 100);
-  	  DRV_SetMode(DRV_MODE_SPEED);
-	  while(REF_GetLineKind()==REF_LINE_FULL){
-		  vTaskDelay(50/portTICK_PERIOD_MS);
-	  }
-	  DRV_Stop(50);
-	  TURN_Turn(TURN_RIGHT180, NULL);
+	  REF_CalibrateStartStop();
   	  break;
 
 

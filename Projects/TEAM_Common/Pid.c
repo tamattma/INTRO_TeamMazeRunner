@@ -416,14 +416,14 @@ void PID_Deinit(void) {
 void PID_Init(void) {
   /*! \todo determine your PID values */
   speedLeftConfig.pFactor100 = 3500;
-  speedLeftConfig.iFactor100 = 20;
+  speedLeftConfig.iFactor100 = 30;
   speedLeftConfig.dFactor100 = 50;
   speedLeftConfig.iAntiWindup = 100000;
   speedLeftConfig.lastError = 0;
   speedLeftConfig.integral = 0;
 
   speedRightConfig.pFactor100 = 3200;
-  speedRightConfig.iFactor100 = 40;
+  speedRightConfig.iFactor100 = 30;
   speedRightConfig.dFactor100 = 50;
   speedRightConfig.iAntiWindup = 100000;
   speedRightConfig.lastError = 0;
