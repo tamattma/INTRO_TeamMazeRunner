@@ -89,7 +89,6 @@ void SUMO_StateMachine (void) {
 
 	case SUMO_DUMMY_DRIVE:	// drive with middle speed until line reached
 		DRV_SetMode(DRV_MODE_SPEED);
-		DRV_SetSpeed(400, 400);
 		do{
 			vTaskDelay(50/portTICK_PERIOD_MS);
 		} while(REF_GetLineKind()==REF_LINE_FULL);
