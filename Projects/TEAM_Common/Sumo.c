@@ -105,7 +105,7 @@ void SUMO_StateMachine (void) {
 		DRV_SetMode(DRV_MODE_SPEED);
 		DRV_SetSpeed(MAX_SPEED, MAX_SPEED);
 		do{
-			vTaskDelay(50/portTICK_PERIOD_MS);
+			vTaskDelay(20/portTICK_PERIOD_MS);
 		} while(REF_GetLineKind()==REF_LINE_FULL);
 		TURN_Turn(TURN_STEP_BORDER_BW, NULL); // drive backward for some time
 		TURN_Turn(TURN_STEP_BORDER_BW, NULL); // drive backward for some time
