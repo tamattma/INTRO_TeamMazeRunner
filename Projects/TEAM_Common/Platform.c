@@ -84,6 +84,7 @@
 #if PL_HAS_DISTANCE_SENSOR
   #include "Distance.h"
 #endif
+
 #include "Sumo.h"
 
 void PL_Init(void) {
@@ -159,9 +160,12 @@ void PL_Init(void) {
 #if PL_CONFIG_HAS_BATTERY_ADC
   BATT_Init();
 #endif
-  SUMO_Init();
+
 #if PL_HAS_DISTANCE_SENSOR
   DIST_Init();
+#endif
+#if PL_LOCAL_CONFIG_BOARD_IS_ROBO
+  SUMO_Init();
 #endif
 }
 

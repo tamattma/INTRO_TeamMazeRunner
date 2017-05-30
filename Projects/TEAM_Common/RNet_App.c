@@ -29,6 +29,9 @@
 #if PL_CONFIG_HAS_LCD
   #include "LCD.h"
 #endif
+#if PL_CONFIG_BOARD_IS_ROBO
+#include "Sumo.h"
+#endif
 
 static RNWK_ShortAddrType APP_dstAddr = RNWK_ADDR_BROADCAST; /* destination node address */
 
@@ -173,14 +176,29 @@ static uint8_t HandleDataRxMessage(RAPP_MSG_Type type, uint8_t size, uint8_t *da
     	val = *data;
     	if(val == RAPP_MSG_TYPE_DATA_ID_START_TRAP){
     		CLS1_SendStr("RNet_App received notify start trap \n",io->stdOut);
+#if PL_CONFIG_BOARD_IS_ROBO
+    		SUMO_Start(SUMO_TRAP);
+#endif
     	}else if(val == RAPP_MSG_TYPE_DATA_ID_START_VOLLGAS){
     		CLS1_SendStr("RNet_App received notify start vollgas \n",io->stdOut);
+#if PL_CONFIG_BOARD_IS_ROBO
+    		SUMO_Start(SUMO_VOLLGAS);
+#endif
     	}else if(val == RAPP_MSG_TYPE_DATA_ID_START_MIXED){
     		CLS1_SendStr("RNet_App received notify start mixed \n",io->stdOut);
+#if PL_CONFIG_BOARD_IS_ROBO
+    		SUMO_Start(SUMO_MIXED);
+#endif
     	}else if(val == RAPP_MSG_TYPE_DATA_ID_START_DUMMY){
     		CLS1_SendStr("RNet_App received notify start dummy \n",io->stdOut);
+#if PL_CONFIG_BOARD_IS_ROBO
+    		SUMO_Start(SUMO_DUMMY);
+#endif
     	}else if(val == RAPP_MSG_TYPE_DATA_ID_STOP){
-    		CLS1_SendStr("RNet_App received notify stop sumo",io->stdOut);
+    		CLS1_SendStr("RNet_App received notify stop sumo \n",io->stdOut);
+#if PL_CONFIG_BOARD_IS_ROBO
+    		SUMO_Stop();
+#endif
     	}
 
     	break;

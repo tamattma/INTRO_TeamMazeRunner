@@ -67,12 +67,21 @@ static void PID_SpeedCfg(int32_t currSpeed, int32_t setSpeed, bool isLeft, PID_C
   MOT_MotorDevice *motHandle;
   
   speed = PID(currSpeed, setSpeed, config);
+#if PL_CONFIG_IS_CARO
   if (speed>=0) {
     direction = MOT_DIR_FORWARD;
   } else { /* negative, make it positive */
     speed = -speed; /* make positive */
     direction = MOT_DIR_BACKWARD;
   }
+#else
+  if (speed>=0) {
+      direction = MOT_DIR_FORWARD;
+    } else { /* negative, make it positive */
+      speed = -speed; /* make positive */
+      direction = MOT_DIR_BACKWARD;
+    }
+#endif
   /* speed shall be positive here, make sure it is within 16bit PWM boundary */
   if (speed>0xFFFF) {
     speed = 0xFFFF;

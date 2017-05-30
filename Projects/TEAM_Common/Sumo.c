@@ -44,7 +44,8 @@ bool SUMO_isRunning (void) {
 void SUMO_StateMachine (void) {
 	switch(state) {
 	case SUMO_IDLE:		// wait on start signal
-	//	DRV_Stop(50/portTICK_PERIOD_MS);
+		DRV_SetSpeed(0,0);
+		DRV_Stop(200/portTICK_PERIOD_MS);
 	break;
 
 	case SUMO_WAIT_5s:	// wait and beep for 5s
@@ -87,7 +88,7 @@ void SUMO_StateMachine (void) {
 
 	case SUMO_DUMMY_DRIVE:	// drive with middle speed until line reached
 		DRV_SetMode(DRV_MODE_SPEED);
-		DRV_SetSpeed(1000, 1000);
+		DRV_SetSpeed(400, 400);
 		do{
 			vTaskDelay(50/portTICK_PERIOD_MS);
 		} while(REF_GetLineKind()==REF_LINE_FULL);
@@ -200,7 +201,8 @@ void SUMO_Deinit(void) {
 
 void SUMO_Init(void) {
 	state = SUMO_IDLE;
-	strategy = SUMO_MIXED;
+	strategy = SUMO_DUMMY;
+	running = FALSE;
 	if (xTaskCreate(SumoTask, "Sumo", 600/sizeof(StackType_t), NULL, tskIDLE_PRIORITY+2, NULL) != pdPASS) {
 	    for(;;){} /* error */
 	}
