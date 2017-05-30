@@ -45,6 +45,7 @@
 #include "Drive.h"
 #include "Reflectance.h"
 #include "Turn.h"
+#include "Sumo.h"
 
 #if PL_CONFIG_HAS_EVENTS
 void APP_EventHandler(EVNT_Handle event) {
@@ -102,7 +103,7 @@ void APP_EventHandler(EVNT_Handle event) {
 	  if (SUMO_isRunning()) {
 		  SUMO_Stop();
 	  } else {
-		  SUMO_Start(1);
+		  SUMO_Start(SUMO_TRAP);
 	  }
 	  break;
 
