@@ -36,7 +36,6 @@ bool running;
 
 int32_t driveL;
 int32_t driveR;
-int counter;
 
 bool SUMO_isRunning (void) {
 	return running;
@@ -103,7 +102,6 @@ void SUMO_StateMachine (void) {
 	break;
 
 	case SUMO_VOLLGAS_FORWARD:	// drive with full speed until line reached
-		counter = 0;
 		DRV_SetMode(DRV_MODE_SPEED);
 		DRV_SetSpeed(MAX_SPEED, MAX_SPEED);
 		do{
@@ -117,70 +115,41 @@ void SUMO_StateMachine (void) {
 	case SUMO_VOLLGAS_SEARCH:	// search enemy
 		if (DIST_GetDistance(DIST_SENSOR_FRONT)>10) {
 			state = SUMO_VOLLGAS_FORWARD;
-		} else if ((counter % 20)==0) {
-			if (DIST_GetDistance(DIST_SENSOR_RIGHT)>10) {
-				TURN_TurnAngle(80, NULL);
-			} else if (DIST_GetDistance(DIST_SENSOR_LEFT)>10) {
-				TURN_TurnAngle(-100, NULL);
-			} else if (DIST_GetDistance(DIST_SENSOR_REAR)>10) {
-				TURN_TurnAngle(160, NULL);
-			} else {
-				DRV_SetSpeed(800, -800); // drehen
-			}
+		} else if (DIST_GetDistance(DIST_SENSOR_RIGHT)>10) {
+			TURN_TurnAngle(80, NULL);
+		} else if (DIST_GetDistance(DIST_SENSOR_LEFT)>10) {
+			TURN_TurnAngle(-100, NULL);
+		} else if (DIST_GetDistance(DIST_SENSOR_REAR)>10) {
+			TURN_TurnAngle(160, NULL);
 		} else {
-			counter++;
+			DRV_SetMode(DRV_MODE_SPEED);
+			DRV_SetSpeed(800, -800); // drehen
 		}
-		//vTaskDelay(1000/portTICK_PERIOD_MS);
-		/**
-		wall = DIST_CheckSurrounding();
-		if (wall == 0) {
-			TURN_TurnAngle(10, NULL); // etwas drehen
-			vTaskDelay(50/portTICK_PERIOD_MS);
-		} else if (wall == 0xf) {
-			state = SUMO_DUMMY_DRIVE; // Fehler
-		} else {	// Objekt gesichtet, aber wo?
-			if (wall < 2) {			// Rear
-				TURN_TurnAngle(160, NULL);
-			} else if (wall < 4) {	// Right
-				TURN_TurnAngle(80, NULL);
-			} else if (wall < 8) {	// Front
-				state = SUMO_VOLLGAS_FORWARD;
-			} else if (wall < 16) {	// Left
-				TURN_TurnAngle(-100, NULL);
-			}
-		}*/
 	break;
 
 	case SUMO_TRAP_SEARCH:	// search enemy on left or right sensor
-		wall = DIST_CheckSurrounding();
-		if (wall == 0) {
-			TURN_TurnAngle(10, NULL); // etwas drehen
-		} else {	// Objekt gesichtet, aber wo?
-			if (wall < 2) {			// Front
-				TURN_TurnAngle(-100, NULL);
-			} else if (wall < 3) {	// Rear
-				TURN_TurnAngle(80, NULL);
-			} else if (wall < 5) {	// Left
-				TURN_TurnAngle(170, NULL);
-			} else if (wall < 9) {	// Right
-				state = SUMO_TRAP_WAIT;
-			}
+		if (DIST_GetDistance(DIST_SENSOR_RIGHT)<0) {
+			DRV_SetMode(DRV_MODE_SPEED);
+			DRV_SetSpeed(400, -400); // drehen
+		} else {	// Objekt gesichtet
+			state = SUMO_TRAP_WAIT;
 		}
 	break;
 
 	case SUMO_TRAP_WAIT:	// wait until enemy is near
-		while(!DIST_NearRightObstacle(150)){
+		while(DIST_GetDistance(DIST_SENSOR_RIGHT)>40){
 			vTaskDelay(5/portTICK_PERIOD_MS);
 		}
-		DRV_SetSpeed(-MAX_SPEED, -MAX_SPEED);
+		TURN_Turn(TURN_STEP_LINE_BW_POST_LINE, NULL);
 		state = SUMO_TRAP_BACK;
+
 	break;
 
-	case SUMO_TRAP_BACK:	// step back and wait for enemy to drive in front
-		DRV_Stop(50/portTICK_PERIOD_MS);
-		while(!DIST_NearFrontObstacle(50)) {
+	case SUMO_TRAP_BACK:	// wait for enemy to drive in front
+		while((DIST_GetDistance(DIST_SENSOR_FRONT)>100)||(DIST_GetDistance(DIST_SENSOR_FRONT)==-1)) {
 			vTaskDelay(20/portTICK_PERIOD_MS);
 		}
+		state = SUMO_TRAP_FORWARD;
 	break;
 
 	case SUMO_TRAP_FORWARD:	// drive forward
@@ -218,7 +187,6 @@ void SUMO_Start(SUMO_Strategy strat){
 	strategy = strat;
 	state = SUMO_WAIT_5s;
 	running = TRUE;
-	counter = 0;
 }
 
 void SUMO_Stop(){
